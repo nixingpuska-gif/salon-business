@@ -1,0 +1,15 @@
+Render PostgreSQL Database Info
+================================
+
+Name: salon-platform-db
+Hostname: dpg-d50truggjchc7380p0pg-a
+Port: 5432
+Database: salon_platform_db
+Username: salon_platform_db_user
+Region: Oregon (US West)
+PostgreSQL Version: 18
+Instance Type: Free (256 MB RAM, 0.1 CPU, 1 GB Storage)
+
+Status: Creating (waiting for database to be ready)
+
+Note: Password and connection URLs will be available after database is ready.
