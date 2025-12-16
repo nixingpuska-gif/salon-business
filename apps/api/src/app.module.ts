@@ -44,28 +44,56 @@ import { PaymentEntity, PaymentSettingsEntity } from './payments/entities/paymen
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DATABASE_HOST', 'localhost'),
-        port: configService.get('DATABASE_PORT', 5432),
-        username: configService.get('DATABASE_USER', 'postgres'),
-        password: configService.get('DATABASE_PASSWORD', 'postgres'),
-        database: configService.get('DATABASE_NAME', 'salon_platform'),
-        entities: [
-          UserEntity,
-          TenantEntity,
-          BranchEntity,
-          EmployeeEntity,
-          ServiceEntity,
-          ServiceCategoryEntity,
-          ClientEntity,
-          AppointmentEntity,
-          PaymentEntity,
-          PaymentSettingsEntity,
-        ],
-        synchronize: configService.get('NODE_ENV') !== 'production',
-        logging: configService.get('NODE_ENV') === 'development',
-      }),
+      useFactory: (configService: ConfigService) => {
+        const databaseUrl = configService.get('DATABASE_URL');
+        
+        // If DATABASE_URL is provided, use it (for cloud platforms like Render)
+        if (databaseUrl) {
+          return {
+            type: 'postgres',
+            url: databaseUrl,
+            entities: [
+              UserEntity,
+              TenantEntity,
+              BranchEntity,
+              EmployeeEntity,
+              ServiceEntity,
+              ServiceCategoryEntity,
+              ClientEntity,
+              AppointmentEntity,
+              PaymentEntity,
+              PaymentSettingsEntity,
+            ],
+            synchronize: configService.get('NODE_ENV') !== 'production',
+            logging: configService.get('NODE_ENV') === 'development',
+            ssl: configService.get('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
+          };
+        }
+        
+        // Otherwise use individual connection parameters (for local development)
+        return {
+          type: 'postgres',
+          host: configService.get('DATABASE_HOST', 'localhost'),
+          port: configService.get('DATABASE_PORT', 5432),
+          username: configService.get('DATABASE_USER', 'postgres'),
+          password: configService.get('DATABASE_PASSWORD', 'postgres'),
+          database: configService.get('DATABASE_NAME', 'salon_platform'),
+          entities: [
+            UserEntity,
+            TenantEntity,
+            BranchEntity,
+            EmployeeEntity,
+            ServiceEntity,
+            ServiceCategoryEntity,
+            ClientEntity,
+            AppointmentEntity,
+            PaymentEntity,
+            PaymentSettingsEntity,
+          ],
+          synchronize: configService.get('NODE_ENV') !== 'production',
+          logging: configService.get('NODE_ENV') === 'development',
+        };
+      },
       inject: [ConfigService],
     }),
     AuthModule,
