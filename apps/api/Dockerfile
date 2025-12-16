@@ -25,5 +25,8 @@ ENV PORT=3000
 # Expose port
 EXPOSE 3000
 
-# Start the application using ts-node
-CMD ["npx", "ts-node", "--transpile-only", "src/main.ts"]
+# Run migrations and seed data before starting the app
+# The application will try to connect to the database, so we run the seed/migration first.
+# The app is built to `dist`, so we use `node dist/main.js` to run the app.
+# The seed/migration needs `ts-node`.
+CMD npx ts-node ./src/database/seed.ts && npx ts-node --transpile-only src/main.ts
