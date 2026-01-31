@@ -1,0 +1,159 @@
+import { AUTOMATION_CONSTANTS } from '@/automations/graphql/automationQueries';
+import {
+  AutomationBuilderTabsType,
+  AutomationNodeType,
+  ConstantsQueryResponse,
+  NodeData,
+} from '@/automations/types';
+import { useQuery } from '@apollo/client';
+import {
+  Edge,
+  EdgeProps,
+  Node,
+  OnInit,
+  ReactFlowInstance,
+} from '@xyflow/react';
+import { useMultiQueryState } from 'erxes-ui';
+import {
+  createContext,
+  SetStateAction,
+  Dispatch,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  IAutomationsActionConfigConstants,
+  IAutomationsActionFolkConfig,
+  IAutomationsTriggerConfigConstants,
+} from 'ui-modules';
+
+type QueryTypes = Record<string, unknown>;
+
+type QueryValues<T extends QueryTypes> = {
+  [K in keyof T]: T[K] | null;
+};
+
+type AutomationQueryParams = {
+  activeTab?: AutomationBuilderTabsType;
+  activeNodeId?: string;
+  activeNodeTab?: AutomationNodeType;
+};
+
+interface AutomationContextType {
+  awaitingToConnectNodeId?: string;
+  setAwaitingToConnectNodeId: Dispatch<SetStateAction<string>>;
+  queryParams: QueryValues<AutomationQueryParams>;
+  setQueryParams: (values: QueryValues<AutomationQueryParams>) => void;
+  triggersConst: IAutomationsTriggerConfigConstants[];
+  actionsConst: IAutomationsActionConfigConstants[];
+  propertyTypesConst: any[];
+  actionFolks: Record<string, IAutomationsActionFolkConfig[]>;
+  loading: boolean;
+  error: any;
+  refetch: () => void;
+  clear: () => void;
+  reactFlowInstance: ReactFlowInstance<Node<NodeData>, Edge<EdgeProps>> | null;
+  setReactFlowInstance: OnInit<Node<NodeData>, Edge<EdgeProps>>;
+  actionConstMap: Map<string, IAutomationsActionConfigConstants>;
+  triggerConstMap: Map<string, IAutomationsTriggerConfigConstants>;
+}
+
+const AutomationContext = createContext<AutomationContextType | null>(null);
+
+export const AutomationProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [awaitingToConnectNodeId, setAwaitingToConnectNodeId] = useState('');
+  const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<
+    Node<NodeData>,
+    Edge<EdgeProps>
+  > | null>(null);
+  const [queryParams, setQueryParams] =
+    useMultiQueryState<AutomationQueryParams>([
+      'activeTab',
+      'activeNodeTab',
+      'activeNodeId',
+    ]);
+
+  const [cached, setCached] = useState<{
+    triggersConst: any[];
+    actionsConst: any[];
+    propertyTypesConst: any[];
+  } | null>(null);
+
+  const { data, loading, error, refetch } = useQuery<ConstantsQueryResponse>(
+    AUTOMATION_CONSTANTS,
+    {
+      skip: !!cached, // Skip query if cached
+      fetchPolicy: 'cache-first',
+      nextFetchPolicy: 'cache-only',
+    },
+  );
+
+  const triggersConst =
+    cached?.triggersConst || data?.automationConstants?.triggersConst || [];
+  const actionsConst =
+    cached?.actionsConst || data?.automationConstants?.actionsConst || [];
+  const propertyTypesConst =
+    cached?.propertyTypesConst ||
+    data?.automationConstants?.propertyTypesConst ||
+    [];
+
+  const actionFolks = Object.fromEntries(
+    (actionsConst || []).map((a: any) => [a.type, a.folks || []]),
+  );
+
+  const actionConstMap = new Map<string, IAutomationsActionConfigConstants>(
+    actionsConst.map((a) => [a.type, a]),
+  );
+  const triggerConstMap = new Map<string, IAutomationsTriggerConfigConstants>(
+    triggersConst.map((t) => [t.type, t]),
+  );
+
+  useEffect(() => {
+    if (data?.automationConstants && !cached) {
+      setCached({
+        triggersConst: data.automationConstants.triggersConst || [],
+        actionsConst: data.automationConstants.actionsConst || [],
+        propertyTypesConst: data.automationConstants.propertyTypesConst || [],
+      });
+    }
+  }, [data, cached]);
+
+  const clear = () => setCached(null);
+
+  return (
+    <AutomationContext.Provider
+      value={{
+        awaitingToConnectNodeId,
+        setAwaitingToConnectNodeId,
+        queryParams,
+        setQueryParams,
+        triggersConst,
+        actionsConst,
+        propertyTypesConst,
+        actionFolks,
+        loading: !cached && loading,
+        error,
+        refetch,
+        clear,
+        reactFlowInstance,
+        setReactFlowInstance,
+        actionConstMap,
+        triggerConstMap,
+      }}
+    >
+      {children}
+    </AutomationContext.Provider>
+  );
+};
+
+export const useAutomation = () => {
+  const ctx = useContext(AutomationContext);
+  if (!ctx)
+    throw new Error('useAutomation must be used within AutomationProvider');
+  return ctx;
+};

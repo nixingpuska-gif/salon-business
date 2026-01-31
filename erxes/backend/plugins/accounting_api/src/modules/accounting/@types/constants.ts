@@ -1,0 +1,132 @@
+export const ACCOUNT_KINDS = {
+  ACTIVE: 'active',
+  PASSIVE: 'passive',
+  ALL: ['active', 'passive'],
+};
+
+export const ACCOUNT_JOURNALS = {
+  MAIN: 'main',
+  TAX: 'tax',
+  CASH: 'cash',
+  BANK: 'bank',
+  DEBT: 'debt',
+  EXCHANGE_DIFF: 'exchangeDiff',
+  INVENTORY: 'inventory',
+  INV_FOLLOW: 'invFollow',
+  FIXED_ASSET: 'fixedAsset',
+  ALL: [
+    'main', 'tax',
+    'cash', 'bank', 'debt', 'exchangeDiff',
+    'inventory', 'invFollow',
+    'fixedAsset',
+  ],
+};
+
+export const ACCOUNT_STATUSES = {
+  ACTIVE: 'active',
+  DELETED: 'deleted',
+  ALL: ['active', 'deleted'],
+};
+
+export const ACCOUNT_CATEGORY_STATUSES = {
+  ACTIVE: 'active',
+  ARCHIVED: 'archived',
+  ALL: ['active', 'archived'],
+};
+
+export const ACCOUNT_CATEGORY_MASK_TYPES = {
+  ANY: '',
+  SOFT: 'soft',
+  HARD: 'hard',
+  ALL: ['', 'soft', 'hard'],
+};
+
+export const TR_SIDES = {
+  DEBIT: 'dt',
+  CREDIT: 'ct',
+  ALL: ['dt', 'ct']
+}
+
+export const TR_STATUSES = {
+  PLAN: 'plan',
+  PENDING: 'pending',
+  SYNCED: 'synced',
+  NEW: 'new',
+  REAL: 'real',
+  CONFIRMED: 'confirmed',
+  COMPLETE: 'complete',
+  DELETED: 'deleted',
+  ACTIVE: ['synced', 'real', 'confirmed', 'complete'],
+  ALL: ['plan', 'pending', 'synced', 'real', 'confirmed', 'complete', 'deleted'],
+};
+
+export const PTR_STATUSES = {
+  UNKNOWN: 'unknown',
+  DIFF: 'diff',
+  ACCOUNT_BALANCE: 'acc',
+  OK: 'ok',
+  ALL: ['unknown', 'diff', 'ok'],
+};
+
+export const JOURNALS = {
+  MAIN: 'main',
+  EXCHANGE_DIFF: 'exchangeDiff',
+  MAIN_FB: 'main_fb',
+  CASH: 'cash',
+  BANK: 'bank',
+  RECEIVABLE: 'receivable',
+  PAYABLE: 'payable',
+  INV_FB: 'inv_fb',
+  INV_INCOME: 'invIncome',
+  INV_OUT: 'invOut',
+  INV_MOVE: 'invMove',
+  INV_MOVE_IN: 'invMoveIn',
+  INV_JUSTIFY: 'invJustify',
+  INV_CONVERT: 'invConvert',
+  INV_SALE: 'invSale',
+  INV_IN_RETURN: 'invInReturn',
+  INV_SALE_RETURN: 'invSaleReturn',
+  INV_SALE_COST: 'invSaleCost',
+  INV_SALE_OUT: 'invSaleOut',
+  TAX: 'tax',
+  ALL: [
+    'main', 'cash', 'bank', 'receivable', 'payable',
+    'inv_fb',
+    'invIncome', 'invOut',
+    'invMove', 'invMoveIn',
+    'invSale', 'invSaleOut', 'invSaleCost',
+    'inv_cost', 'inv_adjust', 'inv_convert',
+    'inv_in_return', 'inv_sale_return',
+    'expense', 'tax', 'exchangeDiff'
+  ],
+  ALL_REAL_INV: [ // yag urtug uldegdeld nuluuluh journal ni
+    'inv_fb',
+    'invIncome',
+    'invOut',
+    'invMove',
+    'invMoveIn',
+    'invJustify',
+    'invConvert',
+    'invInReturn',
+    'invSaleReturn',
+    'invSaleOut'
+  ],
+}
+
+export const TR_FOLLOW_TYPES = {
+  VAT: 'vat',
+  CTAX: 'ctax',
+  EXCHANGE_DIFF: 'exchangeDiff',
+  INV_INCOME_EXPENSE: 'invIncomeExpense',
+  INV_SALE_OUT: 'invSaleOut',
+  INV_SALE_COST: 'invSaleCost',
+  INV_MOVE_IN: 'invMoveIn',
+  ALL: ['vat', 'ctax', 'exchangeDiff', 'invIncomeExpense', 'invSaleOut', 'invSaleCost', 'invMoveIn']
+}
+
+export const TR_DETAIL_FOLLOW_TYPES = {
+  SALE_OUT: 'saleOut',
+  SALE_COST: 'saleCost',
+  MOVE_IN: 'moveIn',
+  ALL: ['saleOut', 'saleCost', 'moveIn']
+}

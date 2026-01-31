@@ -1,0 +1,27 @@
+
+> erxes-next@0.0.0 dev:uis C:\Users\Nicita\repos\erxes
+> dotenv -e .env -- node scripts/start-ui-dev.js
+
+Usage: dotenv [OPTIONS] COMMAND [ARGS]...
+Try 'dotenv --help' for help.
+
+Error: Invalid value for '-e' / '--export': '.env' is not a valid boolean. Recognized values: , 0, 1, f, false, n, no, off, on, t, true, y, yes
+ ELIFECYCLE  Command failed with exit code 2.
+
+ NX   Failed to process project graph. Run "nx reset" to fix this. Please report the issue if you keep seeing it. See errors below.
+
+Failed to process project graph. Run "nx reset" to fix this. Please report the issue if you keep seeing it.
+      An error occurred while processing files for the nx/js/dependencies-and-lockfile plugin.
+    - pnpm-lock.yaml: Could not find ".modules.yaml" at "C:\Users\Nicita\repos\erxes/node_modules/.modules.yaml"
+      Error: Could not find ".modules.yaml" at "C:\Users\Nicita\repos\erxes/node_modules/.modules.yaml"
+          at loadPnpmHoistedDepsDefinition (C:\Users\Nicita\repos\erxes\node_modules\.pnpm\nx@20.0.8_@swc-node+register@1.9.2_@swc+core@1.5.29_@swc+helpers@0.5.15__@swc+types@0.1.24_ty_g4zidvuektrecf5z44bo76zc74\node_modules\nx\src\plugins\js\lock-file\utils\pnpm-normalizer.js:40:15)
+          at getNodes (C:\Users\Nicita\repos\erxes\node_modules\.pnpm\nx@20.0.8_@swc-node+register@1.9.2_@swc+core@1.5.29_@swc+helpers@0.5.15__@swc+types@0.1.24_ty_g4zidvuektrecf5z44bo76zc74\node_modules\nx\src\plugins\js\lock-file\pnpm-parser.js:213:77)
+          at getPnpmLockfileNodes (C:\Users\Nicita\repos\erxes\node_modules\.pnpm\nx@20.0.8_@swc-node+register@1.9.2_@swc+core@1.5.29_@swc+helpers@0.5.15__@swc+types@0.1.24_ty_g4zidvuektrecf5z44bo76zc74\node_modules\nx\src\plugins\js\lock-file\pnpm-parser.js:32:12)
+          at getLockFileNodes (C:\Users\Nicita\repos\erxes\node_modules\.pnpm\nx@20.0.8_@swc-node+register@1.9.2_@swc+core@1.5.29_@swc+helpers@0.5.15__@swc+types@0.1.24_ty_g4zidvuektrecf5z44bo76zc74\node_modules\nx\src\plugins\js\lock-file\lock-file.js:48:59)
+          at exports.createNodes (C:\Users\Nicita\repos\erxes\node_modules\.pnpm\nx@20.0.8_@swc-node+register@1.9.2_@swc+core@1.5.29_@swc+helpers@0.5.15__@swc+types@0.1.24_ty_g4zidvuektrecf5z44bo76zc74\node_modules\nx\src\plugins\js\index.js:47:64)
+          at C:\Users\Nicita\repos\erxes\node_modules\.pnpm\nx@20.0.8_@swc-node+register@1.9.2_@swc+core@1.5.29_@swc+helpers@0.5.15__@swc+types@0.1.24_ty_g4zidvuektrecf5z44bo76zc74\node_modules\nx\src\project-graph\plugins\utils.js:10:33
+          at Array.map (<anonymous>)
+          at createNodesFromFiles (C:\Users\Nicita\repos\erxes\node_modules\.pnpm\nx@20.0.8_@swc-node+register@1.9.2_@swc+core@1.5.29_@swc+helpers@0.5.15__@swc+types@0.1.24_ty_g4zidvuektrecf5z44bo76zc74\node_modules\nx\src\project-graph\plugins\utils.js:8:35)
+          at LoadedNxPlugin.createNodes (C:\Users\Nicita\repos\erxes\node_modules\.pnpm\nx@20.0.8_@swc-node+register@1.9.2_@swc+core@1.5.29_@swc+helpers@0.5.15__@swc+types@0.1.24_ty_g4zidvuektrecf5z44bo76zc74\node_modules\nx\src\project-graph\plugins\internal-api.js:27:76)
+          at LoadedNxPlugin.createNodes.<computed> (C:\Users\Nicita\repos\erxes\node_modules\.pnpm\nx@20.0.8_@swc-node+register@1.9.2_@swc+core@1.5.29_@swc+helpers@0.5.15__@swc+types@0.1.24_ty_g4zidvuektrecf5z44bo76zc74\node_modules\nx\src\project-graph\plugins\internal-api.js:44:34)
+

@@ -1,0 +1,10 @@
+
+> frontline@1.0.0 dev C:\Users\Nicita\repos\erxes\backend\plugins\frontline_api
+> tsx watch src/main.ts
+
+Enabling inline tracing for this subgraph. To disable, use ApolloServerPluginInlineTraceDisabled.
+🚀 frontline graphql api ready at http://localhost:3304/graphql
+Connected to the database: mongodb://localhost:27017/erxes
+erxes-servicefrontline joined with http://localhost:3304
+********* INIT CALL ********
+ ELIFECYCLE  Command failed with exit code 3221225786.

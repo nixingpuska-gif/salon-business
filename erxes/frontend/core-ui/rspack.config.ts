@@ -1,0 +1,56 @@
+import { composePlugins, withNx, withReact } from '@nx/rspack';
+import {
+  ModuleFederationConfig,
+  withModuleFederation,
+} from '@nx/rspack/module-federation';
+import { DefinePlugin } from '@rspack/core';
+
+import baseConfig from './module-federation.config';
+
+const config: ModuleFederationConfig = {
+  ...baseConfig,
+};
+
+export default composePlugins(
+  withNx(),
+  withReact(),
+  withModuleFederation(config, { dts: false }),
+  (config: any) => {
+    // Define environment variables
+    config.plugins?.push(
+      new DefinePlugin({
+        'process.env.REACT_APP_API_URL': JSON.stringify(
+          process.env.REACT_APP_API_URL,
+        ),
+
+        'process.env.REACT_APP_IMAGE_CDN_URL': JSON.stringify(
+          process.env.REACT_APP_IMAGE_CDN_URL,
+        ),
+        'process.env.ENABLED_PLUGINS': JSON.stringify(
+          process.env.ENABLED_PLUGINS,
+        ),
+
+        'process.env.REACT_APP_GOOGLE_MAP_API_KEY': JSON.stringify(
+          process.env.REACT_APP_GOOGLE_MAP_API_KEY,
+        ),
+
+        'process.env.REACT_APP_HIDE_CORE_MODULES': JSON.stringify(
+          process.env.REACT_APP_HIDE_CORE_MODULES,
+        ),
+        'process.env.REACT_APP_SALON_CORE_URL': JSON.stringify(
+          process.env.REACT_APP_SALON_CORE_URL,
+        ),
+      }),
+    );
+
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+    config.module.rules.push({
+      test: /\.css$/,
+      use: ['postcss-loader'],
+      type: 'css',
+    });
+
+    return config;
+  },
+);

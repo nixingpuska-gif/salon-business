@@ -1,0 +1,65 @@
+{
+  "name": "salonhelp_ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "frontend/plugins/salonhelp_ui/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/rspack:rspack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "web",
+        "outputPath": "dist/frontend/plugins/salonhelp_ui",
+        "main": "frontend/plugins/salonhelp_ui/src/main.ts",
+        "tsConfig": "frontend/plugins/salonhelp_ui/tsconfig.app.json",
+        "rspackConfig": "frontend/plugins/salonhelp_ui/rspack.config.ts",
+        "assets": [
+          "frontend/plugins/salonhelp_ui/src/assets"
+        ]
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production",
+          "optimization": true,
+          "sourceMap": false,
+          "rspackConfig": "frontend/plugins/salonhelp_ui/rspack.config.prod.ts"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/rspack:module-federation-dev-server",
+      "options": {
+        "buildTarget": "salonhelp_ui:build:development",
+        "port": 3020
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "buildTarget": "salonhelp_ui:build:production"
+        }
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/rspack:module-federation-static-server",
+      "defaultConfiguration": "production",
+      "options": {
+        "serveTarget": "salonhelp_ui:serve"
+      },
+      "configurations": {
+        "development": {
+          "serveTarget": "salonhelp_ui:serve:development"
+        },
+        "production": {
+          "serveTarget": "salonhelp_ui:serve:production"
+        }
+      }
+    }
+  }
+}

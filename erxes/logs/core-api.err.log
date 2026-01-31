@@ -1,0 +1,35 @@
+npm warn Unknown project config "node-linker". This will stop working in the next major version of npm.
+(node:43676) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:43676) [MONGOOSE] Warning: Duplicate schema index on {"fileId":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
+(node:43676) [MONGOOSE] Warning: Duplicate schema index on {"email":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
+(node:43676) [MONGOOSE] Warning: Duplicate schema index on {"phone":1} found. This is often due to declaring an index using both "index: true" and "schema.index()". Please remove the duplicate index definition.
+(node:43676) NOTE: The AWS SDK for JavaScript (v2) is in maintenance mode.
+ SDK releases are limited to address critical bug fixes and security issues only.
+
+Please migrate your code to use AWS SDK for JavaScript (v3).
+For more information, check the blog post at https://a.co/cUPnyil
+node:child_process:963
+    throw err;
+    ^
+
+Error: Command failed: npx nx run-many -t serve -p core-api frontline_api  gateway --verbose --parallel=3
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:888:11)
+    at execSync (node:child_process:960:15)
+    at Object.<anonymous> (C:\Users\Nicita\repos\erxes\scripts\start-api-dev.js:56:1)
+    at Module._compile (node:internal/modules/cjs/loader:1546:14)
+    at Object..js (node:internal/modules/cjs/loader:1689:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14) {
+  status: 4294967295,
+  signal: null,
+  output: [ null, null, null ],
+  pid: 43808,
+  stdout: null,
+  stderr: null
+}
+
+Node.js v22.11.0

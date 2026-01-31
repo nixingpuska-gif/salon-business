@@ -1,0 +1,12 @@
+npm warn Unknown project config "node-linker". This will stop working in the next major version of npm.
+[1m[34m[ Module Federation Manifest Plugin ]: Manifest will use absolute path resolution via its host at runtime, reason: publicPath='auto'[39m[22m
+[1m[34m[ Module Federation Manifest Plugin ]: Manifest will use absolute path resolution via its host at runtime, reason: publicPath='auto'[39m[22m
+(node:41544) [DEP0180] DeprecationWarning: fs.Stats constructor is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+<i> [webpack-dev-server] Project is running at:
+<i> [webpack-dev-server] Loopback: [36mhttp://localhost:3004/[39m, [36mhttp://[::1]:3004/[39m
+<i> [webpack-dev-server] 404s will fallback to '[36m/index.html[39m'
+<i> [webpack-dev-server] Project is running at:
+<i> [webpack-dev-server] Loopback: [36mhttp://localhost:3005/[39m, [36mhttp://[::1]:3005/[39m
+<i> [webpack-dev-server] 404s will fallback to '[36m/index.html[39m'
+^C

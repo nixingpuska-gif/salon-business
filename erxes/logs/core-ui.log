@@ -1,0 +1,227 @@
+Running: npx nx serve core-ui --devRemotes="frontline_ui,salonhelp_ui" --verbose
+
+> nx run core-ui:serve --devRemotes=frontline_ui,salonhelp_ui
+
+[7m[1m[36m NX [39m[22m[27m [1mStarting module federation dev-server for [1mcore-ui[22m[1m with 1 remotes[22m
+[7m[1m[36m NX [39m[22m[27m [1mStarting static remotes proxies...[22m
+[7m[1m[36m NX [39m[22m[27m [1mStatic remotes proxies started successfully[22m
+Connecting on localhost:3004
+Connecting on localhost:3004
+Connecting on localhost:3004
+Connecting on localhost:3004
+Connecting on localhost:3004
+Connecting on localhost:3004
+Connecting on localhost:3004
+[7m[1m[36m NX [39m[22m[27m [1mAll remotes started, server ready at http://localhost:3005[22m
+[1m[92m[ Module Federation Manifest Plugin ][39m[22m[1m [22m[1m[92mManifest Link:[39m[22m[1m [22m[1m[36m{auto}/mf-manifest.json[39m[22m
+[1m[92m[ Module Federation Manifest Plugin ][39m[22m[1m [22m[1m[92mManifest Link:[39m[22m[1m [22m[1m[36m{auto}/mf-manifest.json[39m[22m
+[7m[1m[36m NX [39m[22m[27m [1mServer ready at http://localhost:3004[22m
+assets by path [1m[32m*.js[39m[22m 29.8 MiB
+  assets by chunk 18 MiB (id hint: vendors)
+    asset [1m[32mvendors-node_modules_dnd-kit_modifiers_dist_modifiers_esm_js-node_modules_dayjs_dayjs_min_js--a4e1c9.js[39m[22m 6.09 MiB [1m[32m[emitted][39m[22m (id hint: vendors)
+    + 68 assets
+  + 92 assets
+assets by path [1m[32massets/[39m[22m 2.33 MiB
+  assets by path [1m[32massets/*.webp[39m[22m 82.1 KiB 10 assets
+  assets by path [1m[32massets/sound/*.mp3[39m[22m 2.24 MiB 9 assets
+  assets by path [1m[32massets/*.svg[39m[22m 8.63 KiB 4 assets
+assets by path [1m[32m*.json[39m[22m 146 KiB
+  asset [1m[32mmf-stats.json[39m[22m 73.7 KiB [1m[32m[emitted][39m[22m
+  asset [1m[32mmf-manifest.json[39m[22m 72.1 KiB [1m[32m[emitted][39m[22m
+asset [1m[32m3rdpartylicenses.txt[39m[22m 666 KiB [1m[32m[emitted][39m[22m
+asset [1m[32mindex.html[39m[22m 391 bytes [1m[32m[emitted][39m[22m
+orphan modules 11.8 MiB [1m[33m[orphan][39m[22m 9628 modules
+runtime modules 132 KiB 51 modules
+cacheable modules 22.1 MiB (javascript) 378 bytes (share-init) 378 bytes (consume-shared) 42 bytes (expose)
+  modules by path [1m../../../node_modules/[39m[22m 15.1 MiB 3197 modules
+  modules by path [1m../../libs/[39m[22m 3.24 MiB 651 modules
+  modules by path [1m./[39m[22m 3.74 MiB 599 modules
+  provide-module modules 378 bytes
+    [1mprovide shared module (default) @apollo/client@3.13.6 = C:\Users\Nicita\repos\erxes\node_modules\@apollo\client\index.js[39m[22m 42 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    + 8 modules
+  consume-shared-module modules 378 bytes
+    [1mconsume shared module (default) react@18.3.1 (strict) (strict) (fallback: C:\Users\Nicita\repos\erxes\node_modules\react\index.js)[39m[22m 42 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    + 8 modules
+  @module-federation/runtime/rspack.js!=![1mdata:text/javascript,import __module_..[39m[22m 18.3 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+  [1mcontainer entry[39m[22m 42 bytes (javascript) 42 bytes (expose) [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+  [1mC:\Users\Nicita\repos\erxes\node_modules\moment\locale|sync|/^\.\/.*$/[39m[22m 160 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+Rspack 1.0.5 compiled [1m[32msuccessfully[39m[22m in 70.64 s
+[7m[1m[36m NX [39m[22m[27m [1mServer ready at http://localhost:3005[22m
+assets by path [1m[32m*.js[39m[22m 30.3 MiB
+  assets by chunk 17.3 MiB (id hint: vendors) 54 assets
+  + 97 assets
+assets by path [1m[32massets/[39m[22m 7.59 KiB
+  assets by path [1m[32massets/*.webp[39m[22m 2.91 KiB 5 assets
+  + 3 assets
+assets by path [1m[32m*.css[39m[22m 327 KiB
+  asset [1m[32msrc_bootstrap_tsx.css[39m[22m 265 KiB [1m[32m[emitted][39m[22m
+  asset [1m[32mvendors-node_modules_react-error-boundary_dist_react-error-boundary_development_esm_js-node_m-6083ea.css[39m[22m 43.7 KiB [1m[32m[emitted][39m[22m (id hint: vendors)
+  asset [1m[32mvendors-node_modules_xyflow_react_dist_style_css-node_modules_tabler_icons-react_dist_esm_ico-e4ad25.css[39m[22m 18.2 KiB [1m[32m[emitted][39m[22m (id hint: vendors)
+assets by path [1m[32m*.json[39m[22m 21 KiB
+  asset [1m[32mmf-stats.json[39m[22m 10.8 KiB [1m[32m[emitted][39m[22m
+  asset [1m[32mmf-manifest.json[39m[22m 10.2 KiB [1m[32m[emitted][39m[22m
+asset [1m[32m3rdpartylicenses.txt[39m[22m 718 KiB [1m[32m[emitted][39m[22m
+asset [1m[32mindex.html[39m[22m 757 bytes [1m[32m[emitted][39m[22m
+orphan modules 12.3 MiB [1m[33m[orphan][39m[22m 9735 modules
+runtime modules 57.7 KiB 26 modules
+cacheable modules 23 MiB (javascript) 326 KiB (css) 378 bytes (share-init) 378 bytes (consume-shared)
+  modules by path [1m../[39m[22m 18 MiB (javascript) 61 KiB (css)
+    modules by path [1m../../node_modules/[39m[22m 14.7 MiB (javascript) 61 KiB (css) 2963 modules
+    modules by path [1m../libs/[39m[22m 3.25 MiB 652 modules
+  modules by path [1m./[39m[22m 5.01 MiB (javascript) 265 KiB (css) 882 modules
+  provide-module modules 378 bytes
+    [1mprovide shared module (default) @apollo/client@3.13.6 = C:\Users\Nicita\repos\erxes\node_modules\@apollo\client\index.js[39m[22m 42 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    + 8 modules
+  consume-shared-module modules 378 bytes
+    [1mconsume shared module (default) react@18.3.1 (strict) (strict) (fallback: C:\Users\Nicita\repos\erxes\node_modules\react\index.js)[39m[22m 42 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    [1mconsume shared module (default) erxes-ui@1.0.0 (strict) (fallback: C:\Users\Nicita\repos\erxes\frontend\libs\erxes-ui\src\index.ts)[39m[22m 42 bytes [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+    + 7 modules
+  @module-federation/runtime/rspack.js!=![1mdata:text/javascript,import __module_..[39m[22m 18.5 KiB [1m[33m[built][39m[22m [1m[33m[code generated][39m[22m
+Rspack 1.0.5 compiled [1m[32msuccessfully[39m[22m in 80.12 s
+[1m[92m[ Module Federation Manifest Plugin ][39m[22m[1m [22m[1m[92mManifest Link:[39m[22m[1m [22m[1m[36m{auto}/mf-manifest.json[39m[22m
+[7m[1m[36m NX [39m[22m[27m [1mServer ready at http://localhost:3004[22m
+assets by status 28.9 MiB [1m[32m[cached][39m[22m 160 assets
+assets by path [1m[32m.[39m[22m 4.07 MiB
+  assets by path [1m[32massets/[39m[22m 2.33 MiB
+    assets by path [1m[32massets/*.webp[39m[22m 82.1 KiB 10 assets
+    assets by path [1m[32massets/sound/*.mp3[39m[22m 2.24 MiB 9 assets
+    assets by path [1m[32massets/*.svg[39m[22m 8.63 KiB 4 assets
+  assets by path [1m[32m*.js[39m[22m 963 KiB
+    assets by chunk 488 KiB (name: frontline_ui) 2 assets
+    assets by chunk 475 KiB (name: main) 2 assets
+  assets by path [1m[32m*.json[39m[22m 153 KiB
+    assets by info 6.81 KiB [1m[32m[hmr][39m[22m 2 assets
+    asset [1m[32mmf-stats.json[39m[22m 73.7 KiB [1m[32m[emitted][39m[22m
+    asset [1m[32mmf-manifest.json[39m[22m 72.1 KiB [1m[32m[emitted][39m[22m
+  asset [1m[32m3rdpartylicenses.txt[39m[22m 666 KiB [1m[32m[emitted][39m[22m
+Entrypoint [1mmain[39m[22m 475 KiB = [1m[32mmain.js[39m[22m 475 KiB [1m[32mmain.4be8750a5cb7d24d0534.hot-update.js[39m[22m 221 bytes
+Entrypoint [1mfrontline_ui[39m[22m 488 KiB = [1m[32mfrontline_ui.4be8750a5cb7d24d0534.hot-update.js[39m[22m 229 bytes [1m[32mremoteEntry.js[39m[22m 488 KiB
+cached modules 11.8 MiB [1m[32m[cached][39m[22m 9628 modules
+runtime modules 132 KiB 51 modules
+cacheable modules 22.1 MiB (javascript) 378 bytes (share-init) 378 bytes (consume-shared) 42 bytes (expose)
+  modules by path [1m../../../node_modules/[39m[22m 15.1 MiB 3197 modules
+  modules by path [1m../../libs/[39m[22m 3.24 MiB 651 modules
+  modules by path [1m./[39m[22m 3.74 MiB 599 modules
+  provide-module modules 378 bytes
+    [1mprovide shared module (default) @apollo/client@3.13.6 = C:\Users\Nicita\repos\erxes\node_modules\@apollo\client\index.js[39m[22m 42 bytes [1m[33m[code generated][39m[22m
+    + 8 modules
+  consume-shared-module modules 378 bytes
+    [1mconsume shared module (default) react@18.3.1 (strict) (strict) (fallback: C:\Users\Nicita\repos\erxes\node_modules\react\index.js)[39m[22m 42 bytes [1m[33m[code generated][39m[22m
+    + 8 modules
+  @module-federation/runtime/rspack.js!=![1mdata:text/javascript,import __module_..[39m[22m 18.3 KiB [1m[33m[code generated][39m[22m
+  [1mcontainer entry[39m[22m 42 bytes (javascript) 42 bytes (expose) [1m[33m[code generated][39m[22m
+  [1mC:\Users\Nicita\repos\erxes\node_modules\moment\locale|sync|/^\.\/.*$/[39m[22m 160 bytes [1m[33m[code generated][39m[22m
+Rspack 1.0.5 compiled [1m[32msuccessfully[39m[22m in 25.04 s
+[1m[92m[ Module Federation Manifest Plugin ][39m[22m[1m [22m[1m[92mManifest Link:[39m[22m[1m [22m[1m[36m{auto}/mf-manifest.json[39m[22m
+[7m[1m[36m NX [39m[22m[27m [1mServer ready at http://localhost:3005[22m
+assets by status 30.1 MiB [1m[32m[cached][39m[22m 154 assets
+assets by path [1m[32m.[39m[22m 1.19 MiB
+  assets by path [1m[32massets/[39m[22m 7.59 KiB
+    assets by path [1m[32massets/*.webp[39m[22m 2.91 KiB 5 assets
+    asset [1m[32massets\erxes-logo.ico[39m[22m 4.19 KiB [1m[32m[emitted][39m[22m
+    asset [1m[32massets\erxes-logo.svg[39m[22m 506 bytes [1m[32m[emitted][39m[22m
+    asset [1m[32massets\.gitkeep[39m[22m 0 bytes [1m[32m[emitted][39m[22m
+  assets by path [1m[32m*.json[39m[22m 21 KiB
+    asset [1m[32mmf-stats.json[39m[22m 10.8 KiB [1m[32m[emitted][39m[22m
+    asset [1m[32mmf-manifest.json[39m[22m 10.2 KiB [1m[32m[emitted][39m[22m
+    asset [1m[32mmain.7d271567e2513ca332e0.hot-update.json[39m[22m 28 bytes [1m[32m[emitted][39m[22m [1m[32m[hmr][39m[22m
+  assets by path [1m[32m*.js[39m[22m 477 KiB
+    asset [1m[32mmain.js[39m[22m 477 KiB [1m[32m[emitted][39m[22m (name: main)
+    asset [1m[32mmain.7d271567e2513ca332e0.hot-update.js[39m[22m 216 bytes [1m[32m[emitted][39m[22m [1m[32m[hmr][39m[22m (name: main)
+  asset [1m[32m3rdpartylicenses.txt[39m[22m 718 KiB [1m[32m[emitted][39m[22m
+Entrypoint [1mmain[39m[22m 477 KiB = [1m[32mmain.js[39m[22m 477 KiB [1m[32mmain.7d271567e2513ca332e0.hot-update.js[39m[22m 216 bytes
+cached modules 12.3 MiB [1m[32m[cached][39m[22m 9735 modules
+runtime modules 57.7 KiB 26 modules
+cacheable modules 23 MiB (javascript) 326 KiB (css) 378 bytes (share-init) 378 bytes (consume-shared)
+  modules by path [1m../[39m[22m 18 MiB (javascript) 61 KiB (css)
+    modules by path [1m../../node_modules/[39m[22m 14.7 MiB (javascript) 61 KiB (css) 2963 modules
+    modules by path [1m../libs/[39m[22m 3.25 MiB 652 modules
+  modules by path [1m./[39m[22m 5.01 MiB (javascript) 265 KiB (css) 882 modules
+  provide-module modules 378 bytes
+    [1mprovide shared module (default) @apollo/client@3.13.6 = C:\Users\Nicita\repos\erxes\node_modules\@apollo\client\index.js[39m[22m 42 bytes [1m[33m[code generated][39m[22m
+    + 8 modules
+  consume-shared-module modules 378 bytes
+    [1mconsume shared module (default) react@18.3.1 (strict) (strict) (fallback: C:\Users\Nicita\repos\erxes\node_modules\react\index.js)[39m[22m 42 bytes [1m[33m[code generated][39m[22m
+    [1mconsume shared module (default) erxes-ui@1.0.0 (strict) (fallback: C:\Users\Nicita\repos\erxes\frontend\libs\erxes-ui\src\index.ts)[39m[22m 42 bytes [1m[33m[code generated][39m[22m
+    + 7 modules
+  @module-federation/runtime/rspack.js!=![1mdata:text/javascript,import __module_..[39m[22m 18.5 KiB [1m[33m[code generated][39m[22m
+Rspack 1.0.5 compiled [1m[32msuccessfully[39m[22m in 26.79 s
+[1m[92m[ Module Federation Manifest Plugin ][39m[22m[1m [22m[1m[92mManifest Link:[39m[22m[1m [22m[1m[36m{auto}/mf-manifest.json[39m[22m
+[7m[1m[36m NX [39m[22m[27m [1mServer ready at http://localhost:3004[22m
+assets by status 28.9 MiB [1m[32m[cached][39m[22m 160 assets
+assets by path [1m[32m.[39m[22m 4.07 MiB
+  assets by path [1m[32massets/[39m[22m 2.33 MiB
+    assets by path [1m[32massets/*.webp[39m[22m 82.1 KiB 10 assets
+    assets by path [1m[32massets/sound/*.mp3[39m[22m 2.24 MiB 9 assets
+    assets by path [1m[32massets/*.svg[39m[22m 8.63 KiB 4 assets
+  assets by path [1m[32m*.js[39m[22m 963 KiB
+    assets by chunk 488 KiB (name: frontline_ui) 2 assets
+    assets by chunk 475 KiB (name: main) 2 assets
+  assets by path [1m[32m*.json[39m[22m 153 KiB
+    assets by info 6.81 KiB [1m[32m[hmr][39m[22m 2 assets
+    asset [1m[32mmf-stats.json[39m[22m 73.7 KiB [1m[32m[emitted][39m[22m
+    asset [1m[32mmf-manifest.json[39m[22m 72.1 KiB [1m[32m[emitted][39m[22m
+  asset [1m[32m3rdpartylicenses.txt[39m[22m 666 KiB [1m[32m[emitted][39m[22m
+Entrypoint [1mmain[39m[22m 475 KiB = [1m[32mmain.js[39m[22m 475 KiB [1m[32mmain.a80d2c965b158bd69ee9.hot-update.js[39m[22m 221 bytes
+Entrypoint [1mfrontline_ui[39m[22m 488 KiB = [1m[32mfrontline_ui.a80d2c965b158bd69ee9.hot-update.js[39m[22m 229 bytes [1m[32mremoteEntry.js[39m[22m 488 KiB
+cached modules 11.8 MiB [1m[32m[cached][39m[22m 9628 modules
+runtime modules 125 KiB 51 modules
+cacheable modules 22.1 MiB (javascript) 378 bytes (share-init) 378 bytes (consume-shared) 42 bytes (expose)
+  modules by path [1m../../../node_modules/[39m[22m 15.1 MiB 3197 modules
+  modules by path [1m../../libs/[39m[22m 3.24 MiB 651 modules
+  modules by path [1m./[39m[22m 3.74 MiB 599 modules
+  provide-module modules 378 bytes
+    [1mprovide shared module (default) @apollo/client@3.13.6 = C:\Users\Nicita\repos\erxes\node_modules\@apollo\client\index.js[39m[22m 42 bytes [1m[33m[code generated][39m[22m
+    + 8 modules
+  consume-shared-module modules 378 bytes
+    [1mconsume shared module (default) react@18.3.1 (strict) (strict) (fallback: C:\Users\Nicita\repos\erxes\node_modules\react\index.js)[39m[22m 42 bytes [1m[33m[code generated][39m[22m
+    + 8 modules
+  @module-federation/runtime/rspack.js!=![1mdata:text/javascript,import __module_..[39m[22m 18.3 KiB [1m[33m[code generated][39m[22m
+  [1mcontainer entry[39m[22m 42 bytes (javascript) 42 bytes (expose) [1m[33m[code generated][39m[22m
+  [1mC:\Users\Nicita\repos\erxes\node_modules\moment\locale|sync|/^\.\/.*$/[39m[22m 160 bytes [1m[33m[code generated][39m[22m
+Rspack 1.0.5 compiled [1m[32msuccessfully[39m[22m in 13.42 s
+[1m[92m[ Module Federation Manifest Plugin ][39m[22m[1m [22m[1m[92mManifest Link:[39m[22m[1m [22m[1m[36m{auto}/mf-manifest.json[39m[22m
+[7m[1m[36m NX [39m[22m[27m [1mServer ready at http://localhost:3005[22m
+assets by status 30.1 MiB [1m[32m[cached][39m[22m 154 assets
+assets by path [1m[32m.[39m[22m 1.19 MiB
+  assets by path [1m[32massets/[39m[22m 7.59 KiB
+    assets by path [1m[32massets/*.webp[39m[22m 2.91 KiB 5 assets
+    asset [1m[32massets\erxes-logo.ico[39m[22m 4.19 KiB [1m[32m[emitted][39m[22m
+    asset [1m[32massets\erxes-logo.svg[39m[22m 506 bytes [1m[32m[emitted][39m[22m
+    asset [1m[32massets\.gitkeep[39m[22m 0 bytes [1m[32m[emitted][39m[22m
+  assets by path [1m[32m*.json[39m[22m 21 KiB
+    asset [1m[32mmf-stats.json[39m[22m 10.8 KiB [1m[32m[emitted][39m[22m
+    asset [1m[32mmf-manifest.json[39m[22m 10.2 KiB [1m[32m[emitted][39m[22m
+    asset [1m[32mmain.e90e6db0d1a5d2f042b1.hot-update.json[39m[22m 28 bytes [1m[32m[emitted][39m[22m [1m[32m[hmr][39m[22m
+  assets by path [1m[32m*.js[39m[22m 477 KiB
+    asset [1m[32mmain.js[39m[22m 477 KiB [1m[32m[emitted][39m[22m (name: main)
+    asset [1m[32mmain.e90e6db0d1a5d2f042b1.hot-update.js[39m[22m 216 bytes [1m[32m[emitted][39m[22m [1m[32m[hmr][39m[22m (name: main)
+  asset [1m[32m3rdpartylicenses.txt[39m[22m 718 KiB [1m[32m[emitted][39m[22m
+Entrypoint [1mmain[39m[22m 477 KiB = [1m[32mmain.js[39m[22m 477 KiB [1m[32mmain.e90e6db0d1a5d2f042b1.hot-update.js[39m[22m 216 bytes
+cached modules 12.3 MiB [1m[32m[cached][39m[22m 9735 modules
+runtime modules 57.7 KiB 26 modules
+cacheable modules 23 MiB (javascript) 326 KiB (css) 378 bytes (share-init) 378 bytes (consume-shared)
+  modules by path [1m../[39m[22m 18 MiB (javascript) 61 KiB (css)
+    modules by path [1m../../node_modules/[39m[22m 14.7 MiB (javascript) 61 KiB (css) 2963 modules
+    modules by path [1m../libs/[39m[22m 3.25 MiB 652 modules
+  modules by path [1m./[39m[22m 5.01 MiB (javascript) 265 KiB (css) 882 modules
+  provide-module modules 378 bytes
+    [1mprovide shared module (default) @apollo/client@3.13.6 = C:\Users\Nicita\repos\erxes\node_modules\@apollo\client\index.js[39m[22m 42 bytes [1m[33m[code generated][39m[22m
+    + 8 modules
+  consume-shared-module modules 378 bytes
+    [1mconsume shared module (default) react@18.3.1 (strict) (strict) (fallback: C:\Users\Nicita\repos\erxes\node_modules\react\index.js)[39m[22m 42 bytes [1m[33m[code generated][39m[22m
+    [1mconsume shared module (default) erxes-ui@1.0.0 (strict) (fallback: C:\Users\Nicita\repos\erxes\frontend\libs\erxes-ui\src\index.ts)[39m[22m 42 bytes [1m[33m[code generated][39m[22m
+    + 7 modules
+  @module-federation/runtime/rspack.js!=![1mdata:text/javascript,import __module_..[39m[22m 18.5 KiB [1m[33m[code generated][39m[22m
+Rspack 1.0.5 compiled [1m[32msuccessfully[39m[22m in 24.43 s
+
+
+
+ NX   Running target serve for project core-ui failed
+
+Failed tasks:
+
+- core-ui:serve
+
+Hint: run the command with --verbose for more details.
+

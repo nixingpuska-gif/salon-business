@@ -1,0 +1,57 @@
+import { ExpressContextFunctionArgument } from '@apollo/server/dist/esm/express4';
+import { Request as ApiRequest, Response as ApiResponse } from 'express';
+import { IMainContext } from '../../core-types';
+import {
+  extractCPUserFromHeader,
+  extractClientPortalFromHeader,
+  extractUserFromHeader,
+} from '../headers';
+import { generateRequestProcess, getSubdomain } from '../utils';
+
+export const generateApolloContext =
+  <TContext>(
+    apolloServerContext: (
+      subdomain: string,
+      context: IMainContext,
+      req: ApiRequest,
+      res: ApiResponse,
+    ) => Promise<TContext>,
+  ) =>
+  async ({ req, res }: ExpressContextFunctionArgument) => {
+    if (
+      req.body.operationName === 'IntrospectionQuery' ||
+      req.body.operationName === 'SubgraphIntrospectQuery'
+    ) {
+      return {};
+    }
+
+    const user: any = extractUserFromHeader(req.headers);
+    const cpUser: any = extractCPUserFromHeader(req.headers);
+    const clientPortal: any = extractClientPortalFromHeader(req.headers);
+
+    const subdomain = getSubdomain(req);
+
+    const processInfo = generateRequestProcess();
+
+    const __ = (doc: any) => ({ ...processInfo, ...doc });
+    const context = {
+      user,
+      cpUser,
+      clientPortal,
+      req,
+      res,
+      subdomain,
+      __,
+      ...processInfo,
+      requestInfo: {
+        secure: req.secure,
+        cookies: req.cookies,
+      },
+    };
+
+    if (apolloServerContext) {
+      return await apolloServerContext(subdomain, context, req, res);
+    }
+
+    return context;
+  };

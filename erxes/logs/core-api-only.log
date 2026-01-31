@@ -1,0 +1,22 @@
+
+> core-api@1.0.0 dev C:\Users\Nicita\repos\erxes\backend\core-api
+> tsx watch src/main.ts
+
+Enabling inline tracing for this subgraph. To disable, use ApolloServerPluginInlineTraceDisabled.
+Connected to the database: mongodb://localhost:27017/erxes
+erxes-servicecore joined with http://localhost:3300
+[Worker] Worker for queue 'core-export-processor' is ready
+[ImportExport] Export worker ready for queue core-export-processor
+[Worker] Worker for queue 'core-import-processor' is ready
+[ImportExport] Worker ready for queue core-import-processor
+Import worker ready
+[Worker] Worker for queue 'core-broadcast_processor' is ready
+Worker for queue broadcast_processor is ready
+[Worker] Worker for queue 'core-broadcast_processor' is ready
+Worker for queue broadcast_processor is ready
+[Worker] Worker for queue 'core-export-processor' is ready
+[ImportExport] Export worker ready for queue core-export-processor
+[Worker] Worker for queue 'core-import-processor' is ready
+[ImportExport] Worker ready for queue core-import-processor
+Import worker ready
+ ELIFECYCLE  Command failed with exit code 3221225786.
