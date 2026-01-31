@@ -1,0 +1,884 @@
+openapi: "3.0.3"
+info:
+  title: "Salon-Core MVP API"
+  version: "0.1.0-mvp"
+  description: "Target API contract for MVP 70% automation. This is a spec for agents and implementation." 
+servers:
+  - url: "http://localhost:8080"
+
+paths:
+  /tenants/{tenantId}/config:
+    get:
+      tags: ["Tenant"]
+      security:
+        - adminToken: []
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TenantId"
+      responses:
+        "200":
+          description: "Tenant config"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TenantConfigResponse"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      tags: ["Tenant"]
+      security:
+        - adminToken: []
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TenantId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TenantConfig"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "501": { $ref: "#/components/responses/NotImplemented" }
+    delete:
+      tags: ["Tenant"]
+      security:
+        - adminToken: []
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TenantId"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "501": { $ref: "#/components/responses/NotImplemented" }
+
+  /slots/suggest:
+    post:
+      tags: ["Scheduling"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SlotSuggestRequest"
+      responses:
+        "200":
+          description: "Suggested slots"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SlotSuggestResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  /bookings/create:
+    post:
+      tags: ["Booking"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingCreateRequest"
+      responses:
+        "200":
+          description: "Booking created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  /bookings/reschedule:
+    post:
+      tags: ["Booking"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingRescheduleRequest"
+      responses:
+        "200":
+          description: "Booking rescheduled"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  /bookings/cancel:
+    post:
+      tags: ["Booking"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingCancelRequest"
+      responses:
+        "200":
+          description: "Booking cancelled"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  /webhooks/{channel}/{tenantId}:
+    post:
+      tags: ["Channels"]
+      parameters:
+        - $ref: "#/components/parameters/Channel"
+        - $ref: "#/components/parameters/TenantId"
+        - $ref: "#/components/parameters/WebhookSignature"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookEnvelope"
+      responses:
+        "200":
+          description: "Accepted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  /send/{channel}:
+    post:
+      tags: ["Channels"]
+      parameters:
+        - $ref: "#/components/parameters/Channel"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendRequest"
+      responses:
+        "200":
+          description: "Send accepted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SendResponse"
+        "400": { $ref: "#/components/responses/BadRequest" }
+
+  /voice/upload:
+    post:
+      tags: ["Voice"]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+          application/json:
+            schema:
+              type: object
+              properties:
+                tenantId: { type: string }
+                fileBase64: { type: string }
+                filename: { type: string }
+                contentType: { type: string }
+      responses:
+        "200":
+          description: "File stored"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoiceUploadResponse"
+
+  /voice/intent:
+    post:
+      tags: ["Voice"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VoiceIntentRequest"
+      responses:
+        "200":
+          description: "Intent extracted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoiceIntentResponse"
+
+  /voice/booking:
+    post:
+      tags: ["Voice"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VoiceBookingRequest"
+      responses:
+        "200":
+          description: "Booking created or follow-up required"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VoiceBookingResponse"
+
+  /inventory/intake:
+    post:
+      tags: ["Inventory"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventoryIntakeRequest"
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                tenantId: { type: string }
+                file:
+                  type: string
+                  format: binary
+                text: { type: string }
+      responses:
+        "200":
+          description: "OCR draft created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InventoryIntakeResponse"
+
+  /inventory/intake/confirm:
+    post:
+      tags: ["Inventory"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventoryConfirmRequest"
+      responses:
+        "200":
+          description: "Ledger entries created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InventoryConfirmResponse"
+
+  /inventory/consume:
+    post:
+      tags: ["Inventory"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventoryConsumeRequest"
+      responses:
+        "200":
+          description: "Consumption applied"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+
+  /inventory/reconcile:
+    post:
+      tags: ["Inventory"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventoryReconcileRequest"
+      responses:
+        "200":
+          description: "Variance report"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InventoryReconcileResponse"
+
+  /feedback/request:
+    post:
+      tags: ["Feedback"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeedbackRequest"
+      responses:
+        "200":
+          description: "Feedback request scheduled"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+
+  /feedback/submit:
+    post:
+      tags: ["Feedback"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeedbackSubmitRequest"
+      responses:
+        "200":
+          description: "Feedback stored"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+
+  /kpi/summary:
+    get:
+      tags: ["KPI"]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdQuery"
+        - $ref: "#/components/parameters/Period"
+      responses:
+        "200":
+          description: "KPI summary"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KpiSummaryResponse"
+
+  /kpi/staff/{staffId}:
+    get:
+      tags: ["KPI"]
+      parameters:
+        - $ref: "#/components/parameters/StaffId"
+        - $ref: "#/components/parameters/TenantIdQuery"
+        - $ref: "#/components/parameters/Period"
+      responses:
+        "200":
+          description: "Staff KPI"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KpiStaffResponse"
+
+  /audit:
+    get:
+      tags: ["Admin"]
+      parameters:
+        - $ref: "#/components/parameters/TenantIdQuery"
+        - name: from
+          in: query
+          schema: { type: string, format: date-time }
+        - name: to
+          in: query
+          schema: { type: string, format: date-time }
+      responses:
+        "200":
+          description: "Audit log"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuditResponse"
+
+  /health:
+    get:
+      tags: ["Health"]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+
+  /health/queues:
+    get:
+      tags: ["Health"]
+      responses:
+        "200":
+          description: "Queues OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+
+  /health/metrics:
+    get:
+      tags: ["Health"]
+      responses:
+        "200":
+          description: "Metrics OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OkResponse"
+
+components:
+  securitySchemes:
+    adminToken:
+      type: apiKey
+      in: header
+      name: x-admin-token
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+  parameters:
+    TenantId:
+      name: tenantId
+      in: path
+      required: true
+      schema: { type: string }
+    TenantIdQuery:
+      name: tenantId
+      in: query
+      required: true
+      schema: { type: string }
+    StaffId:
+      name: staffId
+      in: path
+      required: true
+      schema: { type: string }
+    Period:
+      name: period
+      in: query
+      required: false
+      schema:
+        type: string
+        enum: ["day", "week", "month"]
+      description: "Rollup period"
+    Channel:
+      name: channel
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: ["telegram", "whatsapp", "instagram", "vkmax"]
+      description: "Use vkmax for MAX (https://max.ru/)"
+    WebhookSignature:
+      name: x-webhook-signature
+      in: header
+      required: false
+      schema: { type: string }
+
+  responses:
+    BadRequest:
+      description: "Bad request"
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+    Unauthorized:
+      description: "Unauthorized"
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+    Forbidden:
+      description: "Forbidden"
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+    NotFound:
+      description: "Not found"
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+    NotImplemented:
+      description: "Not implemented"
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+
+  schemas:
+    OkResponse:
+      type: object
+      properties:
+        ok: { type: boolean, example: true }
+
+    ErrorResponse:
+      type: object
+      properties:
+        error: { type: string }
+
+    TenantConfigResponse:
+      type: object
+      properties:
+        tenantId: { type: string }
+        config: { $ref: "#/components/schemas/TenantConfig" }
+
+    TenantConfig:
+      type: object
+      properties:
+        erxes:
+          type: object
+          properties:
+            apiBase: { type: string }
+            appToken: { type: string }
+            nginxHostname: { type: string }
+            brandId: { type: string }
+            integrationIds:
+              type: array
+              items: { type: string }
+        calcom:
+          type: object
+          properties:
+            apiBase: { type: string }
+            apiKey: { type: string }
+            apiVersion: { type: string }
+            webhookSecret: { type: string }
+            teamId: { type: string }
+        channels:
+          type: object
+          properties:
+            telegram: { $ref: "#/components/schemas/ChannelConfig" }
+            whatsapp: { $ref: "#/components/schemas/ChannelConfig" }
+            instagram: { $ref: "#/components/schemas/ChannelConfig" }
+            vkmax: { $ref: "#/components/schemas/ChannelConfig" }
+        webhooks:
+          type: object
+          properties:
+            telegram: { $ref: "#/components/schemas/WebhookConfig" }
+            whatsapp: { $ref: "#/components/schemas/WebhookConfig" }
+            instagram: { $ref: "#/components/schemas/WebhookConfig" }
+            vkmax: { $ref: "#/components/schemas/WebhookConfig" }
+        access:
+          type: object
+          properties:
+            ownerTokens:
+              type: array
+              items: { type: string }
+            staffTokens:
+              type: array
+              items: { type: string }
+
+    ChannelConfig:
+      type: object
+      properties:
+        token: { type: string }
+        sendUrl: { type: string }
+        apiBase: { type: string }
+        phoneId: { type: string }
+
+    WebhookConfig:
+      type: object
+      properties:
+        secret: { type: string }
+
+    SlotSuggestRequest:
+      type: object
+      required: [tenantId, serviceId, preferredTime]
+      properties:
+        tenantId: { type: string }
+        serviceId: { type: string }
+        preferredTime: { type: string, format: date-time }
+        staffId: { type: string }
+        timeZone: { type: string }
+        eventTypeId: { type: number }
+        eventTypeSlug: { type: string }
+        username: { type: string }
+        teamSlug: { type: string }
+        organizationSlug: { type: string }
+        durationMinutes: { type: number }
+        bufferMinutes: { type: number }
+        gridMinutes: { type: number }
+        start: { type: string, format: date-time }
+        end: { type: string, format: date-time }
+        limit: { type: number }
+
+    SlotSuggestResponse:
+      type: object
+      properties:
+        slots:
+          type: array
+          items: { $ref: "#/components/schemas/Slot" }
+
+    Slot:
+      type: object
+      properties:
+        start: { type: string, format: date-time }
+        end: { type: string, format: date-time }
+        score: { type: number }
+        reason: { type: string }
+
+    BookingCreateRequest:
+      type: object
+      required: [tenantId, serviceId, start, client]
+      properties:
+        tenantId: { type: string }
+        serviceId: { type: string }
+        staffId: { type: string }
+        start: { type: string, format: date-time }
+        end: { type: string, format: date-time }
+        client: { $ref: "#/components/schemas/Client" }
+        metadata: { type: object }
+        timeZone: { type: string }
+        language: { type: string }
+        idempotencyKey: { type: string }
+        channel: { type: string }
+
+    BookingRescheduleRequest:
+      type: object
+      required: [tenantId, bookingId, start]
+      properties:
+        tenantId: { type: string }
+        bookingId: { type: string }
+        serviceId: { type: string }
+        start: { type: string, format: date-time }
+        end: { type: string, format: date-time }
+        reason: { type: string }
+        rescheduledBy: { type: string }
+        emailVerificationCode: { type: string }
+
+    BookingCancelRequest:
+      type: object
+      required: [tenantId, bookingId]
+      properties:
+        tenantId: { type: string }
+        bookingId: { type: string }
+        reason: { type: string }
+        cancelSubsequentBookings: { type: boolean }
+
+    BookingResponse:
+      type: object
+      properties:
+        bookingId: { type: string }
+        status: { type: string }
+        start: { type: string, format: date-time }
+        end: { type: string, format: date-time }
+        result: { type: object, additionalProperties: true }
+
+    Client:
+      type: object
+      properties:
+        name: { type: string }
+        phone: { type: string }
+        email: { type: string }
+
+    WebhookEnvelope:
+      type: object
+      description: "Raw webhook payload from channel providers"
+      additionalProperties: true
+
+    SendRequest:
+      type: object
+      required: [tenantId, channel, to, message, idempotencyKey]
+      properties:
+        tenantId: { type: string }
+        channel: { type: string }
+        to: { type: string }
+        message: { type: string }
+        idempotencyKey: { type: string }
+        metadata: { type: object }
+
+    SendResponse:
+      type: object
+      properties:
+        messageId: { type: string }
+        status: { type: string }
+
+    VoiceUploadResponse:
+      type: object
+      properties:
+        fileId: { type: string }
+
+    VoiceIntentRequest:
+      type: object
+      required: [tenantId, fileId]
+      properties:
+        tenantId: { type: string }
+        fileId: { type: string }
+        text: { type: string }
+        transcript: { type: string }
+        serviceId: { type: string }
+        staffId: { type: string }
+        preferredTime: { type: string, format: date-time }
+
+    VoiceIntentResponse:
+      type: object
+      properties:
+        intent: { type: string }
+        fields:
+          type: object
+          properties:
+            serviceId: { type: string }
+            preferredTime: { type: string, format: date-time }
+            staffId: { type: string }
+
+    VoiceBookingRequest:
+      type: object
+      required: [tenantId, fileId]
+      properties:
+        tenantId: { type: string }
+        fileId: { type: string }
+        text: { type: string }
+        transcript: { type: string }
+        client: { $ref: "#/components/schemas/Client" }
+        serviceId: { type: string }
+        preferredTime: { type: string, format: date-time }
+        timeZone: { type: string }
+        language: { type: string }
+        channel: { type: string }
+        to: { type: string }
+        idempotencyKey: { type: string }
+
+    VoiceBookingResponse:
+      type: object
+      properties:
+        status: { type: string, enum: ["booked", "needs_info"] }
+        bookingId: { type: string }
+        missingFields:
+          type: array
+          items: { type: string }
+        followUpMessage: { type: string }
+        suggestedSlots:
+          type: array
+          items: { $ref: "#/components/schemas/Slot" }
+        result: { type: object, additionalProperties: true }
+
+    InventoryIntakeRequest:
+      type: object
+      required: [tenantId]
+      properties:
+        tenantId: { type: string }
+        fileId: { type: string }
+        fileBase64: { type: string }
+        filename: { type: string }
+        contentType: { type: string }
+        text: { type: string }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/InventoryItemDraft" }
+
+    InventoryIntakeResponse:
+      type: object
+      properties:
+        draftId: { type: string }
+        extractedItems:
+          type: array
+          items: { $ref: "#/components/schemas/InventoryItemDraft" }
+
+    InventoryItemDraft:
+      type: object
+      properties:
+        sku: { type: string }
+        name: { type: string }
+        qty: { type: number }
+
+    InventoryConfirmRequest:
+      type: object
+      required: [tenantId, draftId]
+      properties:
+        tenantId: { type: string }
+        draftId: { type: string }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/InventoryItemDraft" }
+
+    InventoryConfirmResponse:
+      type: object
+      properties:
+        ledgerIds:
+          type: array
+          items: { type: string }
+
+    InventoryConsumeRequest:
+      type: object
+      required: [tenantId, bookingId]
+      properties:
+        tenantId: { type: string }
+        bookingId: { type: string }
+        serviceId: { type: string }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/InventoryItemDraft" }
+
+    InventoryReconcileRequest:
+      type: object
+      required: [tenantId, items]
+      properties:
+        tenantId: { type: string }
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              sku: { type: string }
+              qtyPhysical: { type: number }
+        applyCorrection: { type: boolean }
+
+    InventoryReconcileResponse:
+      type: object
+      properties:
+        variance:
+          type: array
+          items:
+            type: object
+            properties:
+              sku: { type: string }
+              qtyExpected: { type: number }
+              qtyPhysical: { type: number }
+              diff: { type: number }
+
+    FeedbackRequest:
+      type: object
+      required: [tenantId, bookingId]
+      properties:
+        tenantId: { type: string }
+        bookingId: { type: string }
+        channel: { type: string }
+        to: { type: string }
+        message: { type: string }
+        idempotencyKey: { type: string }
+        metadata: { type: object }
+
+    FeedbackSubmitRequest:
+      type: object
+      required: [tenantId, bookingId, rating]
+      properties:
+        tenantId: { type: string }
+        bookingId: { type: string }
+        rating: { type: number }
+        comment: { type: string }
+        staffId: { type: string }
+        serviceId: { type: string }
+        channel: { type: string }
+
+    KpiSummaryResponse:
+      type: object
+      properties:
+        period: { type: string }
+        metrics: { type: object }
+
+    KpiStaffResponse:
+      type: object
+      properties:
+        staffId: { type: string }
+        period: { type: string }
+        metrics: { type: object }
+
+    AuditResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items: { type: object }

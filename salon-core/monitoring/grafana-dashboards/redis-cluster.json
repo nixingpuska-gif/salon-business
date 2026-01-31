@@ -1,0 +1,138 @@
+{
+  "dashboard": {
+    "title": "Redis Cluster - Cache Metrics",
+    "tags": ["redis", "cache", "cluster"],
+    "timezone": "browser",
+    "refresh": "30s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Operations per Second",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "sum(rate(redis_commands_processed_total{namespace=\"production\"}[5m]))",
+            "legendFormat": "Total Ops/sec"
+          },
+          {
+            "expr": "sum(rate(redis_commands_processed_total{namespace=\"production\",cmd=\"get\"}[5m]))",
+            "legendFormat": "GET"
+          },
+          {
+            "expr": "sum(rate(redis_commands_processed_total{namespace=\"production\",cmd=\"set\"}[5m]))",
+            "legendFormat": "SET"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Hit Rate (%)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+        "targets": [
+          {
+            "expr": "sum(rate(redis_keyspace_hits_total{namespace=\"production\"}[5m])) / (sum(rate(redis_keyspace_hits_total{namespace=\"production\"}[5m])) + sum(rate(redis_keyspace_misses_total{namespace=\"production\"}[5m]))) * 100",
+            "legendFormat": "Hit Rate"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Memory Usage by Node",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "redis_memory_used_bytes{namespace=\"production\"} / 1024 / 1024",
+            "legendFormat": "{{pod}} - Used MB"
+          },
+          {
+            "expr": "redis_memory_max_bytes{namespace=\"production\"} / 1024 / 1024",
+            "legendFormat": "{{pod}} - Max MB"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Connected Clients",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "redis_connected_clients{namespace=\"production\"}",
+            "legendFormat": "{{pod}}"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Cluster State",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "redis_cluster_state{namespace=\"production\"}",
+            "legendFormat": "Cluster OK"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Cluster Slots",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 6, "y": 16},
+        "targets": [
+          {
+            "expr": "redis_cluster_slots_assigned{namespace=\"production\"}",
+            "legendFormat": "Assigned Slots"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Evicted Keys",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+        "targets": [
+          {
+            "expr": "rate(redis_evicted_keys_total{namespace=\"production\"}[5m])",
+            "legendFormat": "{{pod}}"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Network I/O",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+        "targets": [
+          {
+            "expr": "rate(redis_net_input_bytes_total{namespace=\"production\"}[5m]) / 1024 / 1024",
+            "legendFormat": "{{pod}} - Input MB/s"
+          },
+          {
+            "expr": "rate(redis_net_output_bytes_total{namespace=\"production\"}[5m]) / 1024 / 1024",
+            "legendFormat": "{{pod}} - Output MB/s"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Keys by Node",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
+        "targets": [
+          {
+            "expr": "redis_db_keys{namespace=\"production\"}",
+            "legendFormat": "{{pod}}"
+          }
+        ]
+      }
+    ]
+  }
+}

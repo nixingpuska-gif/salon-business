@@ -1,0 +1,8 @@
+services:
+  app:
+    ports:
+      - "18081:8080"
+    environment:
+      MOCK_CALCOM: "1"
+      MOCK_ERXES: "1"
+      MOCK_SENDERS: "1"

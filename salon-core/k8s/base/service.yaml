@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: salon-core
+  namespace: production
+  labels:
+    app: salon-core
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: salon-core
+  sessionAffinity: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: salon-core-headless
+  namespace: production
+  labels:
+    app: salon-core
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: salon-core

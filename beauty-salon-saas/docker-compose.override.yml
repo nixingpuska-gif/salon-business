@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  novu-api:
+    image: ghcr.io/novuhq/novu/api:0.24.0
+    container_name: beauty-salon-novu-api
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/beauty_salon_saas
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${NOVU_JWT_SECRET}
+    ports:
+      - "3001:3000"
+    networks:
+      - default
+
+  novu-worker:
+    image: ghcr.io/novuhq/novu/worker:0.24.0
+    container_name: beauty-salon-novu-worker
+    depends_on:
+      - novu-api
+      - redis
+    environment:
+      NODE_ENV: production
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    networks:
+      - default
+
+  novu-web:
+    image: ghcr.io/novuhq/novu/web:0.24.0
+    container_name: beauty-salon-novu-web
+    depends_on:
+      - novu-api
+    environment:
+      REACT_APP_API_URL: http://localhost:3001
+    ports:
+      - "3002:4200"
+    networks:
+      - default

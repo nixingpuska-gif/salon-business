@@ -1,0 +1,75 @@
+# Redis Cluster configuration for 10,000 salons
+# 6 nodes: 3 masters + 3 replicas
+
+cluster:
+  enabled: true
+  nodes: 6  # 3 masters + 3 replicas
+  replicas: 1  # 1 replica per master
+
+image:
+  repository: redis
+  tag: "7.2-alpine"
+  pullPolicy: IfNotPresent
+
+auth:
+  enabled: true
+  password: ""  # Set in production values
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+
+persistence:
+  enabled: true
+  storageClass: "fast-ssd"
+  size: 100Gi
+
+configuration: |
+  # Performance tuning for 10K salons
+  maxmemory 1536mb
+  maxmemory-policy allkeys-lru
+  save 900 1
+  save 300 10
+  save 60 10000
+  appendonly yes
+  appendfsync everysec
+  tcp-backlog 511
+  timeout 0
+  tcp-keepalive 300
+  maxclients 10000
+
+service:
+  type: ClusterIP
+  port: 6379
+
+metrics:
+  enabled: true
+  image:
+    repository: oliver006/redis_exporter
+    tag: "v1.55.0"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+serviceAccount:
+  create: true
+  name: ""
+
+podSecurityContext:
+  fsGroup: 1000
+  runAsUser: 1000
+  runAsNonRoot: true
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL

@@ -1,0 +1,28 @@
+{
+  "app": {
+    "name": "Beauty Salon SaaS",
+    "tagline": "Manage your salon easily"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "appointments": "Appointments",
+    "clients": "Clients",
+    "staff": "Staff",
+    "analytics": "Analytics",
+    "settings": "Settings"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "language": {
+    "label": "Language",
+    "current": "Current"
+  }
+}

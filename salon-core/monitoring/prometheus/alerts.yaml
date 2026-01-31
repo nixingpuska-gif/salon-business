@@ -1,0 +1,56 @@
+groups:
+  - name: salon-core-queues
+    rules:
+      - alert: SalonDeadLetterQueueNotEmpty
+        expr: salon_queue_length{queue=~"queue:dead:.*"} > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Dead-letter queue not empty"
+          description: "Queue {{ $labels.queue }} has {{ $value }} items. Investigate failed jobs."
+
+      - alert: SalonQueuePendingStuck
+        expr: salon_queue_pending{queue!~"queue:dead:.*"} > 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Queue pending messages not draining"
+          description: "Queue {{ $labels.queue }} has {{ $value }} pending messages for >10m."
+
+      - alert: SalonQueueBacklogHigh
+        expr: salon_queue_length{queue!~"queue:dead:.*"} > 1000
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Queue backlog high"
+          description: "Queue {{ $labels.queue }} backlog is {{ $value }} (>1000)."
+
+      - alert: SalonRemindersBacklogHigh
+        expr: salon_reminders_zset > 1000
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Reminders backlog high"
+          description: "Reminders backlog is {{ $value }} (>1000)."
+
+      - alert: SalonJobLogFailedHigh
+        expr: salon_job_log_count{status="failed"} > 50
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High number of failed jobs"
+          description: "Failed jobs in last 1h: {{ $value }}."
+
+      - alert: SalonMetricsMissing
+        expr: absent(salon_queue_length)
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "salon-core metrics missing"
+          description: "No salon-core metrics detected for 5m."

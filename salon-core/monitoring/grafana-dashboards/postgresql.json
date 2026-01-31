@@ -1,0 +1,128 @@
+{
+  "dashboard": {
+    "title": "PostgreSQL - Database Metrics",
+    "tags": ["postgresql", "database"],
+    "timezone": "browser",
+    "refresh": "30s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Database Connections",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "pg_stat_database_numbackends{namespace=\"production\"}",
+            "legendFormat": "{{datname}}"
+          },
+          {
+            "expr": "pg_settings_max_connections{namespace=\"production\"}",
+            "legendFormat": "Max Connections"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Transactions per Second",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+        "targets": [
+          {
+            "expr": "rate(pg_stat_database_xact_commit{namespace=\"production\"}[5m])",
+            "legendFormat": "Commits"
+          },
+          {
+            "expr": "rate(pg_stat_database_xact_rollback{namespace=\"production\"}[5m])",
+            "legendFormat": "Rollbacks"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Replication Lag (seconds)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "pg_replication_lag{namespace=\"production\"}",
+            "legendFormat": "{{application_name}}"
+          }
+        ],
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": {"params": [10], "type": "gt"},
+              "query": {"params": ["A", "5m", "now"]},
+              "type": "query"
+            }
+          ],
+          "name": "High Replication Lag"
+        }
+      },
+      {
+        "id": 4,
+        "title": "Cache Hit Ratio (%)",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "sum(pg_stat_database_blks_hit{namespace=\"production\"}) / (sum(pg_stat_database_blks_hit{namespace=\"production\"}) + sum(pg_stat_database_blks_read{namespace=\"production\"})) * 100",
+            "legendFormat": "Cache Hit Ratio"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Query Duration (p95)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(pg_stat_statements_mean_time_seconds_bucket{namespace=\"production\"}[5m]))",
+            "legendFormat": "p95 Query Time"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Deadlocks",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+        "targets": [
+          {
+            "expr": "rate(pg_stat_database_deadlocks{namespace=\"production\"}[5m])",
+            "legendFormat": "Deadlocks/sec"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Database Size (GB)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+        "targets": [
+          {
+            "expr": "pg_database_size_bytes{namespace=\"production\"} / 1024 / 1024 / 1024",
+            "legendFormat": "{{datname}}"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Locks by Type",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
+        "targets": [
+          {
+            "expr": "pg_locks_count{namespace=\"production\"}",
+            "legendFormat": "{{mode}}"
+          }
+        ]
+      }
+    ]
+  }
+}

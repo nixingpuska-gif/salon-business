@@ -1,0 +1,28 @@
+{
+  "name": "@beauty-salon-saas/localization",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared i18next configuration and helpers",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "echo \"no lint configured\""
+  },
+  "dependencies": {
+    "i18next": "^23.10.0",
+    "i18next-browser-languagedetector": "^7.2.0",
+    "i18next-http-backend": "^2.5.2",
+    "react-i18next": "^14.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

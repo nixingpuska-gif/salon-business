@@ -1,0 +1,127 @@
+name: salon-core-ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: salon
+          POSTGRES_PASSWORD: salon
+          POSTGRES_DB: salon_core
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Install psql
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Run migrations
+        env:
+          DATABASE_URL: postgresql://salon:salon@localhost:5432/salon_core
+        run: |
+          psql "${DATABASE_URL}" -v ON_ERROR_STOP=1 -f scripts/sql/001_message_log.sql
+          psql "${DATABASE_URL}" -v ON_ERROR_STOP=1 -f scripts/sql/002_tenant_config.sql
+          psql "${DATABASE_URL}" -v ON_ERROR_STOP=1 -f scripts/sql/003_core_tables.sql
+          psql "${DATABASE_URL}" -v ON_ERROR_STOP=1 -f scripts/sql/007_inventory_tables.sql
+          psql "${DATABASE_URL}" -v ON_ERROR_STOP=1 -f scripts/sql/008_feedback_tables.sql
+          psql "${DATABASE_URL}" -v ON_ERROR_STOP=1 -f scripts/sql/009_kpi_rollup.sql
+          psql "${DATABASE_URL}" -v ON_ERROR_STOP=1 -f scripts/sql/010_booking_events.sql
+          psql "${DATABASE_URL}" -v ON_ERROR_STOP=1 -f scripts/sql/006_metrics_views.sql
+
+      - name: Start app
+        run: |
+          export PORT=8080
+          export DATABASE_URL=postgresql://salon:salon@localhost:5432/salon_core
+          export REDIS_URL=redis://localhost:6379
+          export METRICS_DB=1
+          node dist/index.js &
+          echo $! > /tmp/salon-core.pid
+          for i in {1..20}; do
+            if curl -fsS http://localhost:8080/health >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "App did not become healthy in time"
+          exit 1
+
+      - name: Smoke (health only)
+        run: |
+          export SALON_CORE_URL=http://localhost:8080
+          npm run smoke
+
+      - name: Smoke (full E2E)
+        if: ${{ secrets.SMOKE_ENABLE == '1' }}
+        env:
+          SALON_CORE_URL: http://localhost:8080
+          TENANT_ID: ${{ secrets.SMOKE_TENANT_ID }}
+          CHANNEL: ${{ secrets.SMOKE_CHANNEL }}
+          TO: ${{ secrets.SMOKE_TO }}
+          ERXES_INTEGRATION_ID: ${{ secrets.SMOKE_ERXES_INTEGRATION_ID }}
+          WEBHOOK_SECRET: ${{ secrets.SMOKE_WEBHOOK_SECRET }}
+          EVENT_TYPE_ID: ${{ secrets.SMOKE_EVENT_TYPE_ID }}
+          TIME_ZONE: ${{ secrets.SMOKE_TIME_ZONE }}
+          LANGUAGE: ${{ secrets.SMOKE_LANGUAGE }}
+          CALCOM_WEBHOOK_SECRET: ${{ secrets.SMOKE_CALCOM_WEBHOOK_SECRET }}
+          ALLOW_SEND: ${{ secrets.SMOKE_ALLOW_SEND }}
+          ALLOW_INBOUND: ${{ secrets.SMOKE_ALLOW_INBOUND }}
+          ALLOW_BOOKING: ${{ secrets.SMOKE_ALLOW_BOOKING }}
+          ALLOW_CALCOM: ${{ secrets.SMOKE_ALLOW_CALCOM }}
+          ALLOW_UNSIGNED_WEBHOOK: ${{ secrets.SMOKE_ALLOW_UNSIGNED_WEBHOOK }}
+          ALLOW_UNSIGNED_CALCOM: ${{ secrets.SMOKE_ALLOW_UNSIGNED_CALCOM }}
+        run: |
+          npm run smoke
+
+      - name: Smoke (mocked E2E)
+        if: ${{ secrets.SMOKE_ENABLE != '1' }}
+        env:
+          SALON_CORE_URL: http://localhost:8080
+          TENANT_ID: smoke
+          CHANNEL: telegram
+          TO: 123456789
+          ERXES_INTEGRATION_ID: mock-integration
+          WEBHOOK_SECRET: ""
+          EVENT_TYPE_ID: "123"
+          CALCOM_WEBHOOK_SECRET: ""
+          ALLOW_SEND: "1"
+          ALLOW_INBOUND: "1"
+          ALLOW_BOOKING: "1"
+          ALLOW_CALCOM: "1"
+          ALLOW_UNSIGNED_WEBHOOK: "1"
+          ALLOW_UNSIGNED_CALCOM: "1"
+          MOCK_SENDERS: "1"
+          MOCK_CALCOM: "1"
+          MOCK_ERXES: "1"
+        run: |
+          npm run smoke
+
+      - name: Stop app
+        if: always()
+        run: |
+          if [[ -f /tmp/salon-core.pid ]]; then
+            kill "$(cat /tmp/salon-core.pid)" || true
+          fi

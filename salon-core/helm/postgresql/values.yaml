@@ -1,0 +1,103 @@
+# PostgreSQL configuration for 10,000 salons
+# Master-replica setup with high availability
+
+replication:
+  enabled: true
+  replicas: 3  # 1 master + 3 read replicas
+
+image:
+  repository: postgres
+  tag: "15.5-alpine"
+  pullPolicy: IfNotPresent
+
+auth:
+  postgresPassword: ""  # Set in production values
+  username: "salon"
+  password: ""  # Set in production values
+  database: "salon_core"
+
+primary:
+  resources:
+    requests:
+      cpu: 2000m
+      memory: 4Gi
+    limits:
+      cpu: 4000m
+      memory: 8Gi
+
+  persistence:
+    enabled: true
+    storageClass: "fast-ssd"  # Use SSD for better performance
+    size: 500Gi
+
+  configuration: |
+    # Performance tuning for 10K salons
+    max_connections = 500
+    shared_buffers = 2GB
+    effective_cache_size = 6GB
+    maintenance_work_mem = 512MB
+    checkpoint_completion_target = 0.9
+    wal_buffers = 16MB
+    default_statistics_target = 100
+    random_page_cost = 1.1
+    effective_io_concurrency = 200
+    work_mem = 4MB
+    min_wal_size = 1GB
+    max_wal_size = 4GB
+    max_worker_processes = 4
+    max_parallel_workers_per_gather = 2
+    max_parallel_workers = 4
+    max_parallel_maintenance_workers = 2
+
+readReplicas:
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+
+  persistence:
+    enabled: true
+    storageClass: "fast-ssd"
+    size: 500Gi
+
+metrics:
+  enabled: true
+  image:
+    repository: prometheuscommunity/postgres-exporter
+    tag: "v0.15.0"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+service:
+  type: ClusterIP
+  port: 5432
+
+serviceAccount:
+  create: true
+  name: ""
+
+podSecurityContext:
+  fsGroup: 999
+  runAsUser: 999
+  runAsNonRoot: true
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention: 30  # Keep 30 days
+  storageClass: "standard"
+  size: 1Ti

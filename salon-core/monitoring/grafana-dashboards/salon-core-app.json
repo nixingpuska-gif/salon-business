@@ -1,0 +1,136 @@
+{
+  "dashboard": {
+    "title": "Salon Core - Application Metrics",
+    "tags": ["salon-core", "application"],
+    "timezone": "browser",
+    "refresh": "30s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Request Rate (RPS)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total{namespace=\"production\",app=\"salon-core\"}[5m]))",
+            "legendFormat": "Total RPS"
+          },
+          {
+            "expr": "sum(rate(http_requests_total{namespace=\"production\",app=\"salon-core\",status=~\"2..\"}[5m]))",
+            "legendFormat": "2xx Success"
+          },
+          {
+            "expr": "sum(rate(http_requests_total{namespace=\"production\",app=\"salon-core\",status=~\"5..\"}[5m]))",
+            "legendFormat": "5xx Errors"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Response Time (p50, p95, p99)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, sum(rate(http_request_duration_seconds_bucket{namespace=\"production\",app=\"salon-core\"}[5m])) by (le))",
+            "legendFormat": "p50"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{namespace=\"production\",app=\"salon-core\"}[5m])) by (le))",
+            "legendFormat": "p95"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{namespace=\"production\",app=\"salon-core\"}[5m])) by (le))",
+            "legendFormat": "p99"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Error Rate (%)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total{namespace=\"production\",app=\"salon-core\",status=~\"5..\"}[5m])) / sum(rate(http_requests_total{namespace=\"production\",app=\"salon-core\"}[5m])) * 100",
+            "legendFormat": "Error Rate"
+          }
+        ],
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": {"params": [1], "type": "gt"},
+              "query": {"params": ["A", "5m", "now"]},
+              "type": "query"
+            }
+          ],
+          "name": "High Error Rate"
+        }
+      },
+      {
+        "id": 4,
+        "title": "Active Pods",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "count(kube_pod_status_phase{namespace=\"production\",pod=~\"salon-core-.*\",phase=\"Running\"})",
+            "legendFormat": "Running Pods"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "CPU Usage by Pod",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"production\",pod=~\"salon-core-.*\"}[5m])) by (pod)",
+            "legendFormat": "{{pod}}"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Memory Usage by Pod",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+        "targets": [
+          {
+            "expr": "sum(container_memory_working_set_bytes{namespace=\"production\",pod=~\"salon-core-.*\"}) by (pod) / 1024 / 1024",
+            "legendFormat": "{{pod}}"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Database Connections",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+        "targets": [
+          {
+            "expr": "pg_stat_database_numbackends{namespace=\"production\"}",
+            "legendFormat": "Active Connections"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Redis Hit Rate (%)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
+        "targets": [
+          {
+            "expr": "rate(redis_keyspace_hits_total{namespace=\"production\"}[5m]) / (rate(redis_keyspace_hits_total{namespace=\"production\"}[5m]) + rate(redis_keyspace_misses_total{namespace=\"production\"}[5m])) * 100",
+            "legendFormat": "Hit Rate"
+          }
+        ]
+      }
+    ]
+  }
+}

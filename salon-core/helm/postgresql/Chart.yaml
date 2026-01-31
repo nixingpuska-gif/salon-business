@@ -1,0 +1,12 @@
+apiVersion: v2
+name: postgresql
+description: PostgreSQL with master-replica setup for high availability
+type: application
+version: 1.0.0
+appVersion: "15.5"
+keywords:
+  - postgresql
+  - database
+  - sql
+maintainers:
+  - name: Salon Core Team

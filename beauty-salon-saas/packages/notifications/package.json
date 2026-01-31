@@ -1,0 +1,35 @@
+{
+  "name": "@beauty-salon/notifications",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Novu-powered notification infrastructure for Beauty Salon SaaS",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "tsx tests/notifications.test.ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@novu/node": "^0.24.0",
+    "zod": "^3.22.4",
+    "date-fns": "^3.3.1",
+    "date-fns-tz": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@beauty-salon/rate-limiting": "workspace:*",
+    "@beauty-salon/localization": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.3.3"
+  }
+}

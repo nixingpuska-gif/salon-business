@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "redis-cluster.fullname" . }}-config
+  labels:
+    {{- include "redis-cluster.labels" . | nindent 4 }}
+data:
+  redis.conf: |
+    {{- .Values.configuration | nindent 4 }}
+    cluster-enabled yes
+    cluster-config-file /data/nodes.conf
+    cluster-node-timeout 5000
+    cluster-require-full-coverage no
+
+  init-cluster.sh: |
+    #!/bin/sh
+    set -e
+
+    # Wait for all pods to be ready
+    echo "Waiting for all Redis nodes to be ready..."
+    sleep 10
+
+    # Get all pod IPs
+    REDIS_NODES=""
+    for i in $(seq 0 $(({{ .Values.cluster.nodes }} - 1))); do
+      POD_NAME="{{ include "redis-cluster.fullname" . }}-$i"
+      POD_IP=$(getent hosts $POD_NAME.{{ include "redis-cluster.fullname" . }}-headless | awk '{ print $1 }')
+      REDIS_NODES="$REDIS_NODES $POD_IP:6379"
+    done
+
+    echo "Redis nodes: $REDIS_NODES"
+
+    # Create cluster
+    {{- if .Values.auth.enabled }}
+    redis-cli --cluster create $REDIS_NODES \
+      --cluster-replicas {{ .Values.cluster.replicas }} \
+      --cluster-yes \
+      -a {{ .Values.auth.password }}
+    {{- else }}
+    redis-cli --cluster create $REDIS_NODES \
+      --cluster-replicas {{ .Values.cluster.replicas }} \
+      --cluster-yes
+    {{- end }}
+
+    echo "Redis Cluster created successfully!"

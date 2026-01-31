@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akira Salon | The Art of Autonomous Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;500&display=swap');
+        
+        :root {
+            --gold: #D4AF37;
+            --dark: #121212;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--dark); 
+            color: #F5F5F5;
+            letter-spacing: -0.01em;
+        }
+
+        .serif { font-family: 'Playfair Display', serif; }
+        
+        .gold-text { color: var(--gold); }
+        .gold-border { border-color: rgba(212, 175, 55, 0.3); }
+        
+        .backdrop-blur-nav {
+            backdrop-filter: blur(10px);
+            background-color: rgba(18, 18, 18, 0.8);
+        }
+
+        .luxury-card {
+            background: linear-gradient(145deg, #1a1a1a, #121212);
+            transition: all 0.4s ease;
+        }
+
+        .luxury-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 p-6 flex justify-between items-center backdrop-blur-nav border-b border-white/5">
+        <div class="serif text-2xl font-bold tracking-tighter gold-text">AKIRA <span class="text-white font-light">SALON</span></div>
+        <div class="hidden md:flex space-x-10 text-xs uppercase tracking-widest text-gray-400 font-medium">
+            <a href="#" class="hover:text-white transition">Platform</a>
+            <a href="#" class="hover:text-white transition">Intelligence</a>
+            <a href="#" class="hover:text-white transition">Experience</a>
+        </div>
+        <button class="px-6 py-2 border gold-border gold-text text-xs uppercase tracking-widest hover:bg-[#D4AF37] hover:text-black transition duration-500">Book Demo</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center opacity-20 scale-105"></div>
+        <div class="relative max-w-5xl space-y-6">
+            <h2 class="text-xs uppercase tracking-[0.5em] gold-text font-medium animate-pulse">Evolution of Beauty Management</h2>
+            <h1 class="serif text-6xl md:text-8xl font-medium leading-tight">Ваш бизнес в режиме <span class="italic">абсолютной</span> автономии</h1>
+            <p class="text-gray-400 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+                Интеллектуальная операционная система, созданная для тех, кто ценит время своего персонала и комфорт своих гостей. 
+            </p>
+        </div>
+    </header>
+
+    <!-- Features -->
+    <section class="max-w-7xl mx-auto px-6 py-32 grid md:grid-cols-3 gap-12">
+        <div class="luxury-card p-10 border border-white/5 space-y-6">
+            <div class="w-12 h-[1px] bg-[#D4AF37]"></div>
+            <h3 class="serif text-3xl font-medium">Интеллект</h3>
+            <p class="text-gray-500 font-light leading-relaxed">Ядро Akira-9 анализирует предпочтения гостей, предлагая им идеальные окна для записи ещё до того, как они это осознают.</p>
+        </div>
+        <div class="luxury-card p-10 border border-white/5 space-y-6">
+            <div class="w-12 h-[1px] bg-[#D4AF37]"></div>
+            <h3 class="serif text-3xl font-medium">Эстетика</h3>
+            <p class="text-gray-500 font-light leading-relaxed">Бесшовный интерфейс бронирования, адаптированный под ваш бренд. Конверсия из сообщения в визит выше на 45%.</p>
+        </div>
+        <div class="luxury-card p-10 border border-white/5 space-y-6">
+            <div class="w-12 h-[1px] bg-[#D4AF37]"></div>
+            <h3 class="serif text-3xl font-medium">Контроль</h3>
+            <p class="text-gray-500 font-light leading-relaxed">Полная прозрачность финансов и инвентаризации в реальном времени. Система сама управляет остатками и заказами.</p>
+        </div>
+    </section>
+
+    <!-- System Status -->
+    <section class="py-20 bg-white/5 text-center">
+        <div class="max-w-xl mx-auto space-y-4">
+            <div class="flex items-center justify-center space-x-3">
+                <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div>
+                <span class="text-xs uppercase tracking-[0.2em] text-gray-400">System Performance: Optimal</span>
+            </div>
+            <p class="serif text-2xl">964 транзакции в секунду. Мощность для глобального масштаба.</p>
+        </div>
+    </section>
+
+    <footer class="p-12 text-center border-t border-white/5 opacity-30 text-[10px] uppercase tracking-widest">
+        &copy; 2026 Akira Salon Ecosystem. All Rights Reserved.
+    </footer>
+</body>
+</html>

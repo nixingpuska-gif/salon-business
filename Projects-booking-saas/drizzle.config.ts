@@ -1,0 +1,21 @@
+import "dotenv/config";
+import { defineConfig } from "drizzle-kit";
+
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL is required in .env file");
+}
+
+const url = new URL(process.env.DATABASE_URL);
+
+export default defineConfig({
+  schema: "./drizzle/schema.ts",
+  out: "./drizzle/migrations",
+  dialect: "mysql",
+  dbCredentials: {
+    host: url.hostname,
+    port: Number(url.port) || 3306,
+    user: url.username,
+    password: url.password,
+    database: url.pathname.slice(1),
+  },
+});

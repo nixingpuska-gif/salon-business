@@ -1,0 +1,99 @@
+
+{
+  "name": "create YCLIENTS record",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"phone\": \"+71234567890\",\n  \"name\": \"Иван\",\n  \"record_id\": 123,\n  \"staff_id\":123456,\n  \"datetime\":\"2025-01-01 12:00:00\",\n  \"service_id\": 123456\n}"
+      },
+      "id": "89ea43fb-d348-4edb-b661-034e81470978",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.yclients.com/api/v1/book_record/YOUR_COMPANY_ID",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.yclients.v2+json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"phone\": \"{{$json.phone}}\",\n  \"fullname\": \"{{$json.name}}\",\n  \"email\": \"d@yclients.com\",\n  \"appointments\": [\n    {\n      \"id\": {{$json.record_id}},\n      \"datetime\": \"{{$json.datetime}}\",\n      \"staff_id\": {{$json.staff_id}},\n      \"services\": [\n        \"{{$json.service_id}}\"\n      ]\n    }\n  ]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        528,
+        352
+      ],
+      "id": "cde0a244-2bfa-42da-bb0e-0ba3bc2c435c",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "YOUR_YCLIENTS_CREDENTIALS",
+          "name": "Bearer Yclients Token"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "phone": "+71234567890",
+          "name": "Иван",
+          "record_id": 12345,
+          "staff_id": 12345,
+          "datetime": "2025-09-12T12:00:00"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    {
+      "name": "yclients"
+    },
+    {
+      "name": "booking"
+    }
+  ]
+}

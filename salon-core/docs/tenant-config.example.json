@@ -1,0 +1,94 @@
+{
+  "default": {
+    "channels": {
+      "telegram": {
+        "botToken": "TELEGRAM_BOT_TOKEN_DEFAULT"
+      },
+      "whatsapp": {
+        "token": "WHATSAPP_TOKEN_DEFAULT",
+        "apiBase": "https://graph.facebook.com/v19.0",
+        "phoneId": "WHATSAPP_PHONE_ID_DEFAULT"
+      },
+      "instagram": {
+        "token": "INSTAGRAM_TOKEN_DEFAULT",
+        "sendUrl": "https://graph.facebook.com/v19.0/me/messages"
+      },
+      "vkmax": {
+        "token": "VKMAX_TOKEN_DEFAULT",
+        "sendUrl": "https://vkmax.example/send"
+      }
+    },
+    "services": {
+      "svc-cut": {
+        "calcomEventTypeId": 26,
+        "durationMinutes": 60,
+        "bufferMinutes": 10,
+        "gridMinutes": 15
+      }
+    },
+    "inventory": {
+      "services": {
+        "svc-cut": {
+          "items": [
+            { "sku": "shampoo-basic", "name": "Shampoo", "qty": 1, "unit": "pcs" },
+            { "sku": "gloves", "name": "Gloves", "qty": 1, "unit": "pair" }
+          ]
+        }
+      }
+    },
+    "webhooks": {
+      "telegram": { "secret": "TELEGRAM_WEBHOOK_SECRET_DEFAULT" },
+      "whatsapp": { "secret": "WHATSAPP_WEBHOOK_SECRET_DEFAULT" },
+      "instagram": { "secret": "INSTAGRAM_WEBHOOK_SECRET_DEFAULT" },
+      "vkmax": { "secret": "VKMAX_WEBHOOK_SECRET_DEFAULT" }
+    },
+    "erxes": {
+      "apiBase": "https://erxes.yourdomain",
+      "appToken": "ERXES_APP_TOKEN_DEFAULT",
+      "nginxHostname": "ERXES_NGINX_HOSTNAME_DEFAULT",
+      "brandId": "ERXES_BRAND_ID_DEFAULT",
+      "integrationIds": ["ERXES_INTEGRATION_ID_DEFAULT"]
+    },
+    "calcom": {
+      "apiBase": "https://cal-api.yourdomain",
+      "apiKey": "CALCOM_API_KEY_DEFAULT",
+      "apiVersion": "2024-08-13",
+      "webhookSecret": "CALCOM_WEBHOOK_SECRET_DEFAULT",
+      "teamId": "CALCOM_TEAM_ID_DEFAULT"
+    },
+    "access": {
+      "ownerTokens": ["OWNER_TOKEN_DEFAULT"],
+      "staffTokens": ["STAFF_TOKEN_DEFAULT"]
+    }
+  },
+  "salon-1": {
+    "channels": {
+      "telegram": {
+        "botToken": "SALON1_TELEGRAM_TOKEN"
+      },
+      "whatsapp": {
+        "token": "SALON1_WHATSAPP_TOKEN",
+        "apiBase": "https://graph.facebook.com/v19.0",
+        "phoneId": "SALON1_PHONE_ID"
+      }
+    },
+    "webhooks": {
+      "telegram": { "secret": "SALON1_TELEGRAM_WEBHOOK_SECRET" },
+      "whatsapp": { "secret": "SALON1_WHATSAPP_WEBHOOK_SECRET" }
+    },
+    "erxes": {
+      "brandId": "ERXES_BRAND_ID_SALON1",
+      "integrationIds": ["ERXES_INTEGRATION_ID_SALON1"]
+    },
+    "calcom": {
+      "apiKey": "CALCOM_API_KEY_SALON1",
+      "apiVersion": "2024-08-13",
+      "webhookSecret": "CALCOM_WEBHOOK_SECRET_SALON1",
+      "teamId": "CALCOM_TEAM_ID_SALON1"
+    },
+    "access": {
+      "ownerTokens": ["OWNER_TOKEN_SALON1"],
+      "staffTokens": ["STAFF_TOKEN_SALON1"]
+    }
+  }
+}

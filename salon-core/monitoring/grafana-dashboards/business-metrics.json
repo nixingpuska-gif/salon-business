@@ -1,0 +1,140 @@
+{
+  "dashboard": {
+    "title": "Salon Core - Business Metrics",
+    "tags": ["business", "kpi", "salon-core"],
+    "timezone": "browser",
+    "refresh": "1m",
+    "time": {
+      "from": "now-24h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Bookings per Hour",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "sum(rate(bookings_created_total{namespace=\"production\"}[1h]))",
+            "legendFormat": "Bookings/hour"
+          },
+          {
+            "expr": "sum(rate(bookings_completed_total{namespace=\"production\"}[1h]))",
+            "legendFormat": "Completed/hour"
+          },
+          {
+            "expr": "sum(rate(bookings_cancelled_total{namespace=\"production\"}[1h]))",
+            "legendFormat": "Cancelled/hour"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Total Active Salons",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0},
+        "targets": [
+          {
+            "expr": "salons_active_total{namespace=\"production\"}",
+            "legendFormat": "Active Salons"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Total Active Clients",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0},
+        "targets": [
+          {
+            "expr": "clients_active_total{namespace=\"production\"}",
+            "legendFormat": "Active Clients"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Revenue (24h)",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "sum(increase(revenue_total{namespace=\"production\"}[24h]))",
+            "legendFormat": "Revenue"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "currencyUSD"
+          }
+        }
+      },
+      {
+        "id": 5,
+        "title": "Booking Conversion Rate (%)",
+        "type": "gauge",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "sum(rate(bookings_completed_total{namespace=\"production\"}[1h])) / sum(rate(bookings_created_total{namespace=\"production\"}[1h])) * 100",
+            "legendFormat": "Conversion Rate"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Top Salons by Bookings",
+        "type": "table",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "topk(10, sum(increase(bookings_created_total{namespace=\"production\"}[24h])) by (salon_id))",
+            "format": "table"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Bookings by Status",
+        "type": "piechart",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+        "targets": [
+          {
+            "expr": "sum(bookings_by_status{namespace=\"production\"}) by (status)",
+            "legendFormat": "{{status}}"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Average Booking Value",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+        "targets": [
+          {
+            "expr": "sum(rate(revenue_total{namespace=\"production\"}[1h])) / sum(rate(bookings_completed_total{namespace=\"production\"}[1h]))",
+            "legendFormat": "Avg Booking Value"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "currencyUSD"
+          }
+        }
+      },
+      {
+        "id": 9,
+        "title": "New Clients (24h)",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
+        "targets": [
+          {
+            "expr": "sum(increase(clients_created_total{namespace=\"production\"}[24h]))",
+            "legendFormat": "New Clients"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+[Unit]
+Description=salon-core monthly partitions
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/salon-core/env
+Environment=RUN_RETENTION=0
+Environment=RUN_PARTITIONS=1
+ExecStart=/opt/salon-core/scripts/cron/maintenance.sh

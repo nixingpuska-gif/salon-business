@@ -1,0 +1,88 @@
+{
+  "dashboard": {
+    "title": "Salon Core - Logs",
+    "tags": ["logs", "loki", "salon-core"],
+    "timezone": "browser",
+    "refresh": "10s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Recent Logs - All Pods",
+        "type": "logs",
+        "gridPos": {"h": 12, "w": 24, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "{namespace=\"production\", app=\"salon-core\"}",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "showTime": true,
+          "showLabels": true,
+          "wrapLogMessage": true,
+          "sortOrder": "Descending"
+        }
+      },
+      {
+        "id": 2,
+        "title": "Error Logs",
+        "type": "logs",
+        "gridPos": {"h": 10, "w": 12, "x": 0, "y": 12},
+        "targets": [
+          {
+            "expr": "{namespace=\"production\", app=\"salon-core\"} |~ \"(?i)error|exception|fatal\"",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Warning Logs",
+        "type": "logs",
+        "gridPos": {"h": 10, "w": 12, "x": 12, "y": 12},
+        "targets": [
+          {
+            "expr": "{namespace=\"production\", app=\"salon-core\"} |~ \"(?i)warn|warning\"",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Log Volume by Level",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 22},
+        "targets": [
+          {
+            "expr": "sum(rate({namespace=\"production\", app=\"salon-core\"} |~ \"(?i)error\" [5m]))",
+            "legendFormat": "Error"
+          },
+          {
+            "expr": "sum(rate({namespace=\"production\", app=\"salon-core\"} |~ \"(?i)warn\" [5m]))",
+            "legendFormat": "Warning"
+          },
+          {
+            "expr": "sum(rate({namespace=\"production\", app=\"salon-core\"} |~ \"(?i)info\" [5m]))",
+            "legendFormat": "Info"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Log Volume by Pod",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 22},
+        "targets": [
+          {
+            "expr": "sum(rate({namespace=\"production\", app=\"salon-core\"}[5m])) by (pod)",
+            "legendFormat": "{{pod}}"
+          }
+        ]
+      }
+    ]
+  }
+}

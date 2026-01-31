@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "postgresql.fullname" . }}-config
+  labels:
+    {{- include "postgresql.labels" . | nindent 4 }}
+data:
+  postgresql.conf: |
+    {{- .Values.primary.configuration | nindent 4 }}
+
+  setup-replication.sh: |
+    #!/bin/bash
+    set -e
+
+    # Check if this is the primary (pod-0)
+    if [[ $(hostname) == *"-0" ]]; then
+      echo "Setting up as PRIMARY"
+
+      # Initialize database if needed
+      if [ ! -s "$PGDATA/PG_VERSION" ]; then
+        initdb -D "$PGDATA"
+      fi
+
+      # Configure replication
+      cat >> "$PGDATA/postgresql.conf" <<EOF
+    wal_level = replica
+    max_wal_senders = 10
+    max_replication_slots = 10
+    hot_standby = on
+    EOF
+
+      # Allow replication connections
+      cat >> "$PGDATA/pg_hba.conf" <<EOF
+    host replication all 0.0.0.0/0 md5
+    EOF
+
+    else
+      echo "Setting up as REPLICA"
+
+      # Wait for primary to be ready
+      until pg_isready -h {{ include "postgresql.fullname" . }}-0.{{ include "postgresql.fullname" . }}-headless -p 5432; do
+        echo "Waiting for primary..."
+        sleep 2
+      done
+
+      # Create base backup from primary
+      if [ ! -s "$PGDATA/PG_VERSION" ]; then
+        rm -rf "$PGDATA"/*
+        pg_basebackup -h {{ include "postgresql.fullname" . }}-0.{{ include "postgresql.fullname" . }}-headless \
+          -D "$PGDATA" -U replicator -v -P -W
+      fi
+
+      # Configure as standby
+      cat > "$PGDATA/standby.signal" <<EOF
+    standby_mode = 'on'
+    primary_conninfo = 'host={{ include "postgresql.fullname" . }}-0.{{ include "postgresql.fullname" . }}-headless port=5432 user=replicator password=$POSTGRES_PASSWORD'
+    EOF
+    fi

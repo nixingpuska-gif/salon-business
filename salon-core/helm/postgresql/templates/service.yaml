@@ -1,0 +1,57 @@
+---
+# Headless service for StatefulSet
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "postgresql.fullname" . }}-headless
+  labels:
+    {{- include "postgresql.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - name: postgresql
+    port: {{ .Values.service.port }}
+    targetPort: postgresql
+    protocol: TCP
+  selector:
+    {{- include "postgresql.selectorLabels" . | nindent 4 }}
+---
+# Service for master (write operations)
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "postgresql.fullname" . }}-master
+  labels:
+    {{- include "postgresql.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  - name: postgresql
+    port: {{ .Values.service.port }}
+    targetPort: postgresql
+    protocol: TCP
+  selector:
+    {{- include "postgresql.selectorLabels" . | nindent 4 }}
+    statefulset.kubernetes.io/pod-name: {{ include "postgresql.fullname" . }}-0
+---
+# Service for read replicas (read operations)
+{{- if .Values.replication.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "postgresql.fullname" . }}-read
+  labels:
+    {{- include "postgresql.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+  - name: postgresql
+    port: {{ .Values.service.port }}
+    targetPort: postgresql
+    protocol: TCP
+  selector:
+    {{- include "postgresql.selectorLabels" . | nindent 4 }}
+  # Exclude master pod from read service
+  sessionAffinity: ClientIP
+{{- end }}

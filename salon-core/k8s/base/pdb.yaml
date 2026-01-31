@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: salon-core-pdb
+  namespace: production
+spec:
+  minAvailable: 15
+  selector:
+    matchLabels:
+      app: salon-core

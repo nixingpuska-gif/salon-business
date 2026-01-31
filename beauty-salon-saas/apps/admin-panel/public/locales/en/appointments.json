@@ -1,0 +1,27 @@
+{
+  "title": "Appointments",
+  "subtitle": "Manage your client schedule",
+  "create": "Create appointment",
+  "status": {
+    "planned": "Planned",
+    "confirmed": "Confirmed",
+    "completed": "Completed",
+    "cancelled": "Cancelled"
+  },
+  "form": {
+    "client": "Client",
+    "service": "Service",
+    "staff": "Staff",
+    "date": "Date",
+    "time": "Time",
+    "price": "Price"
+  },
+  "messages": {
+    "created": "Appointment created",
+    "updated": "Appointment updated"
+  },
+  "stats": {
+    "today": "Today",
+    "total": "Total"
+  }
+}

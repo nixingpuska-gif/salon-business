@@ -1,0 +1,28 @@
+{
+  "app": {
+    "name": "Салон Красоты SaaS",
+    "tagline": "Управляйте салоном легко"
+  },
+  "navigation": {
+    "dashboard": "Дашборд",
+    "appointments": "Записи",
+    "clients": "Клиенты",
+    "staff": "Мастера",
+    "analytics": "Аналитика",
+    "settings": "Настройки"
+  },
+  "common": {
+    "save": "Сохранить",
+    "cancel": "Отменить",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "search": "Поиск",
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "success": "Успешно"
+  },
+  "language": {
+    "label": "Язык",
+    "current": "Текущий"
+  }
+}

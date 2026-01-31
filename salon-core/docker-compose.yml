@@ -1,0 +1,98 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: salon
+      POSTGRES_PASSWORD: salon
+      POSTGRES_DB: salon_core
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+
+  app:
+    build: .
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://salon:salon@postgres:5432/salon_core
+      REDIS_URL: redis://redis:6379
+      CORE_DB_WRITE: "1"
+      LOG_TO_DB: "1"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
+
+  worker_sender:
+    build: .
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://salon:salon@postgres:5432/salon_core
+      REDIS_URL: redis://redis:6379
+      CORE_DB_WRITE: "1"
+      LOG_TO_DB: "1"
+    command: ["node", "dist/workers/sender.js"]
+    depends_on:
+      - postgres
+      - redis
+
+  worker_tx:
+    build: .
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://salon:salon@postgres:5432/salon_core
+      REDIS_URL: redis://redis:6379
+      CORE_DB_WRITE: "1"
+      LOG_TO_DB: "1"
+    command: ["node", "dist/workers/tx.js"]
+    depends_on:
+      - postgres
+      - redis
+
+  worker_mk:
+    build: .
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://salon:salon@postgres:5432/salon_core
+      REDIS_URL: redis://redis:6379
+      CORE_DB_WRITE: "1"
+      LOG_TO_DB: "1"
+    command: ["node", "dist/workers/mk.js"]
+    depends_on:
+      - postgres
+      - redis
+
+  worker_reminder:
+    build: .
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://salon:salon@postgres:5432/salon_core
+      REDIS_URL: redis://redis:6379
+      CORE_DB_WRITE: "1"
+      LOG_TO_DB: "1"
+    command: ["node", "dist/workers/reminder.js"]
+    depends_on:
+      - postgres
+      - redis
+
+  migrate:
+    image: postgres:15
+    environment:
+      DATABASE_URL: postgresql://salon:salon@postgres:5432/salon_core
+      RUN_VIEWS: "1"
+    volumes:
+      - ./scripts/sql:/scripts/sql:ro
+      - ./scripts/docker/migrate.sh:/migrate.sh:ro
+    command: ["bash", "/migrate.sh"]
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:

@@ -1,0 +1,39 @@
+{
+  "name": "salon-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "worker:sender": "tsx src/workers/sender.ts",
+    "worker:tx": "tsx src/workers/tx.ts",
+    "worker:mk": "tsx src/workers/mk.ts",
+    "worker:reminder": "tsx src/workers/reminder.ts",
+    "smoke": "bash scripts/smoke/run_all.sh",
+    "smoke:gitbash": "powershell -ExecutionPolicy Bypass -File scripts/smoke/run_all.ps1",
+    "env:audit": "node scripts/security/env_audit.js",
+    "test": "node --test --import tsx test/*.test.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.72.1",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "helmet": "^8.1.0",
+    "ioredis": "^5.4.1",
+    "multer": "^2.0.2",
+    "openai": "^6.17.0",
+    "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.21",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^20.11.30",
+    "@types/pg": "^8.16.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
+  }
+}
